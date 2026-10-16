@@ -2,9 +2,11 @@
 
 ## Architectural Theory
 
-The container image must be built to serve strictly as a passive data artifact. An OCI registry functions as a centralized model registry by encapsulating the model weights directly within container layers, eliminating the need for external storage references. 
+An OCI registry functions as a centralized model registry by encapsulating the model weights directly within container layers, eliminating the need for external storage references. 
 
-Packaging models as OCI images enables Kubernetes nodes to deduplicate identical layers across specialized models that share foundational weights, leveraging local caching mechanisms for maximum efficiency. This creates a data-only image that is never executed for compute; it exists solely to deliver read-only filesystem layers to the host node.
+Packaging models as OCI images enables Kubernetes nodes to deduplicate identical layers across specialized models that share foundational weights, leveraging local caching mechanisms for maximum efficiency. 
+
+This creates a data-only image that is never executed for compute; it exists solely to deliver read-only filesystem layers to the host node.
 
 ## Deployment Execution
 
