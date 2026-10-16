@@ -13,6 +13,9 @@ The workload execution is divided into two distinct technical phases:
 
 1. **Manual Primitive Reconstruction**:
    -Direct manipulation of Linux process namespace sharing (`shareProcessNamespace: true`)
-   -`/proc` symlinking. This exposes read-only OCI image layers across pod container boundaries without physical data duplication.
+     
+   -`/proc` symlinking , read only without physical data duplication.
    
-3. **Control Plane Abstraction**: Declarative deployment of the architecture leveraging KServe's `InferenceService`. This demonstrates the automated, controller-driven injection of sidecars and shared memory volumes to abstract underlying kernel primitives.
+3. **Control Plane Abstraction**: Declarative deployment of the architecture leveraging KServe's `InferenceService`.
+  
+This demonstrates the automated, controller-driven injection of sidecars and shared memory volumes to abstract underlying kernel primitives.
