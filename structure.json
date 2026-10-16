@@ -11,7 +11,7 @@
       "title": "Agent Gateway - Promptfoo"
     },
     {
-      "path": "kserve -- oci model car ",
+      "path": "kserve",
       "title": "Red Hat KServe Model SideCar "
     }
   ]
