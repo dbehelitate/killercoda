@@ -1,6 +1,5 @@
-# Scenario: Zero-Copy Model Provisioning via OCI Modelcars
+# KServe with vLLM an LLM as SideCar 
 
-## Abstract
 This scenario demonstrates the implementation of zero-copy Large Language Model (LLM) weight sharing utilizing Open Container Initiative (OCI) modelcar sidecars.
 
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
