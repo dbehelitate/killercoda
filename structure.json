@@ -12,7 +12,7 @@
     },
     {
       "path": "kserve",
-      "title": "Red Hat KServe Model SideCar "
+      "title": "KServe Qwen2.5 with vLLM in a sidecar "
     }
   ]
 }
