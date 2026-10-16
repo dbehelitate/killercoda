@@ -9,6 +9,10 @@
     {
       "path": "agentgateway--promptfoo",
       "title": "Agent Gateway - Promptfoo"
+    },
+    {
+      "path": "kserve -- oci model car ",
+      "title": "Red Hat KServe Model SideCar "
     }
   ]
 }

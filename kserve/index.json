@@ -1,0 +1,38 @@
+{
+  "title": "KServe Modelcars and Zero-Copy OCI Loading",
+  "description": "Architect and deploy KServe modelcars. Analyze process namespace sharing, /proc VFS symlinking, and KServe InferenceService abstractions.",
+  "backend": {
+    "imageid": "kubernetes-kubeadm-1node"
+  },
+  "details": {
+    "intro": {
+      "text": "intro.md"
+    },
+    "steps": [
+      {
+        "title": "Control Plane Initialization",
+        "text": "step1.md"
+      },
+      {
+        "title": "Passive OCI Artifact Packaging",
+        "text": "step2.md"
+      },
+      {
+        "title": "Manual Architecture: Namespaces and Sidecars",
+        "text": "step3.md"
+      },
+      {
+        "title": "Validating VFS Cross-Container Traversal",
+        "text": "step4.md"
+      },
+      {
+        "title": "KServe Storage Initializer Configuration",
+        "text": "step5.md"
+      },
+      {
+        "title": "InferenceService Abstraction and Native Volumes",
+        "text": "step6.md"
+      }
+    ]
+  }
+}
