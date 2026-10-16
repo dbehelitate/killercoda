@@ -1,10 +1,13 @@
 # KServe with vLLM an LLM as SideCar 
 
 This scenario demonstrates the implementation of zero-copy Large Language Model (LLM) weight sharing utilizing Open Container Initiative (OCI) modelcar sidecars.
+Traditional deployments suffer I/O bottlenecks by copying massive model weights to ephemeral volumes. KServe mitigates this using Open Container Initiative (OCI) image standards. 
+This demonstrates the injection of sidecars and shared memory volumes to abstract underlying kernel primitives.
 
+
+    
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
 
-Traditional deployments suffer I/O bottlenecks by copying massive model weights to ephemeral volumes. KServe mitigates this using Open Container Initiative (OCI) image standards. 
 
 The Kubernetes Container Runtime Interface (CRI) allows instantaneous, zero-copy sharing of foundational weights across pods.
 
@@ -12,10 +15,12 @@ The Kubernetes Container Runtime Interface (CRI) allows instantaneous, zero-copy
 The workload execution is divided into two distinct technical phases:
 
 1. **Manual Primitive Reconstruction**:
-   -Direct manipulation of Linux process namespace sharing (`shareProcessNamespace: true`)
+   -Linux process namespace sharing (`shareProcessNamespace: true`)
      
-   -`/proc` symlinking , read only without physical data duplication.
+   -symlinks , read only without copy.
    
-3. **Control Plane Abstraction**: Declarative deployment of the architecture leveraging KServe's `InferenceService`.
+3. **Control Plane Abstraction**:
+
+   -Declarative deployment of KServe's `InferenceService`.
   
-This demonstrates the automated, controller-driven injection of sidecars and shared memory volumes to abstract underlying kernel primitives.
+
