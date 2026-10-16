@@ -17,7 +17,7 @@ cat << 'EOF_DOCKER' > Dockerfile
 FROM alpine/git
 RUN apk add --no-cache git-lfs \
  && git lfs install \
- && git clone --depth 1 [https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct) /models
+ && git clone --depth 1 https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct /models
 ENTRYPOINT ["sh"]
 EOF_DOCKER
 
