@@ -23,4 +23,9 @@ kubectl wait --for=condition=available --timeout=60s deployment/cert-manager-web
 
 kubectl apply -k "https://github.com/kserve/kserve/config/default?ref=v0.13.0"
 kubectl wait --for=condition=available --timeout=60s deployment/kserve-controller-manager -n kserve
+
+# Rimuove il sidecar kube-rbac-proxy incompatibile con l'ambiente isolato Killercoda
+kubectl patch deployment kserve-controller-manager -n kserve --type='json' -p='[
+  {"op": "remove", "path": "/spec/template/spec/containers/1"}
+]'
 ```{{exec}}
