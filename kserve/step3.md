@@ -1,8 +1,14 @@
-## Manual Architecture: Namespaces and Sidecars
+# Step 3: Manual Process Namespace Sharing and Sidecars
 
-Before relying on the KServe controller, construct the underlying Linux primitives manually. KServe achieves zero-copy execution by utilizing the `shareProcessNamespace` property in the Pod specification[cite: 105].
+## Architectural Theory
 
-Write the manual Pod manifest. The sidecar runs an `ln -s` command targeting `/proc/$$$$/root/models` to create a symbolic link into the shared `emptyDir` volume, then executes `sleep infinity` to maintain container uptime[cite: 108]. I parametri vLLM sono configurati esplicitamente per prevenire l'allocazione della KV cache ed evitare crash OOM nel nodo Killercoda.
+Kubernetes natively isolates container processes. To achieve zero-copy data sharing, the Pod specification must be forced to share its process namespace (`shareProcessNamespace: true`). 
+
+A minimal sidecar container (modelcar) caches the OCI layer and exposes it via the Linux Virtual File System (VFS). It executes a symbolic link pointing the primary inference runtime (vLLM) directly to the cached weights via the host's `/proc` hierarchy. The vLLM engine parameters are explicitly constrained to prevent KV cache overallocation and avoid Out-Of-Memory (OOM) kernel panics on resource-limited nodes.
+
+## Deployment Execution
+
+Write and apply the manual Pod manifest to validate the underlying Linux kernel primitives before introducing control plane automation.
 
 ```bash
 cat << 'EOF_YAML' > manual-modelcar-pod.yaml
@@ -52,11 +58,7 @@ spec:
   - name: model-share
     emptyDir: {}
 EOF_YAML
-```
 
-Apply the manifest. 
-
-```bash
 kubectl apply -f manual-modelcar-pod.yaml
 kubectl wait --for=condition=Ready --timeout=300s pod/vllm-manual-modelcar
-```
+```{{exec}}

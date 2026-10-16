@@ -1,8 +1,14 @@
-## Passive OCI Artifact Packaging
+## Step 2: Passive OCI Artifact Packaging
 
-You must build the modelcar image. An OCI registry acts as a model registry by managing the entire model file inside container layers rather than referencing external storage[cite: 93, 94]. Packaging models as OCI images allows nodes to deduplicate layers across specialized models sharing the same foundation and cache data locally[cite: 65, 104].
+## Architectural Theory
 
-Create a `Dockerfile` to clone a token-free model (`Qwen2.5-0.5B-Instruct`) into the `/models` directory[cite: 94].
+The container image must be built to serve strictly as a passive data artifact. An OCI registry functions as a centralized model registry by encapsulating the model weights directly within container layers, eliminating the need for external storage references. 
+
+Packaging models as OCI images enables Kubernetes nodes to deduplicate identical layers across specialized models that share foundational weights, leveraging local caching mechanisms for maximum efficiency. This creates a data-only image that is never executed for compute; it exists solely to deliver read-only filesystem layers to the host node.
+
+## Deployment Execution
+
+Create the `Dockerfile` and execute the local container image build. The `git clone` command fetches the model weights directly into the OCI layer.
 
 ```bash
 cat << 'EOF_DOCKER' > Dockerfile
@@ -12,10 +18,6 @@ RUN apk add --no-cache git-lfs \
  && git clone --depth 1 [https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct) /models
 ENTRYPOINT ["sh"]
 EOF_DOCKER
-```
 
-Execute the container image build locally. This creates a passive data image that is never executed for compute; it delivers read-only layers to the host[cite: 94].
-
-```bash
 docker build -t modelcar-qwen:latest .
-```
+```{{exec}}

@@ -1,19 +1,21 @@
-## Control Plane Initialization
+# Step 1: Control Plane Initialization
 
-Traditional model initialization relies on `initContainers` copying data from remote storage into `emptyDir` volumes[cite: 97, 102]. Copying gigabytes of data for Large Language Models (LLMs) per Pod replica causes severe I/O bottlenecks and increases startup latency[cite: 69, 102]. KServe mitigates this through direct OCI image execution.
+## Architectural Theory
 
-Install `cert-manager`, a strict prerequisite for KServe's mutating and validating webhooks[cite: 56].
+Traditional model initialization relies on `initContainers` copying data from remote storage into `emptyDir` volumes. Copying gigabytes of data for Large Language Models (LLMs) per Pod replica causes severe node-level I/O bottlenecks and critically increases startup latency. KServe mitigates this anti-pattern through direct OCI image execution.
+
+The KServe control plane requires a certificate manager to enforce mutual TLS for its mutating and validating admission webhooks. KServe extends the Kubernetes API via Custom Resource Definitions (CRDs). 
+
+Furthermore, KServe supports Knative, Standard, and ModelMesh deployment modes. LLM deployments must strictly leverage the Standard mode (plain Kubernetes deployments). Knative's dynamic autoscaling constraints are fundamentally incompatible with statically managed GPU resources and induce unacceptable cold-start latencies.
+
+## Deployment Execution
+
+Execute the following sequence to install the strict prerequisites (`cert-manager`) and deploy the KServe core infrastructure. The `wait` directives ensure the mutating webhooks are fully registered and operational before the cluster accepts subsequent resources.
 
 ```bash
-kubectl apply -f [https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml](https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml)
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml
 kubectl wait --for=condition=available --timeout=600s deployment/cert-manager-webhook -n cert-manager
-```
 
-Deploy the KServe v0.13.0 core CRDs and controller manager[cite: 56].
-
-```bash
-kubectl apply -k "[https://github.com/kserve/kserve/config/default?ref=v0.13.0](https://github.com/kserve/kserve/config/default?ref=v0.13.0)"
+kubectl apply -k "https://github.com/kserve/kserve/config/default?ref=v0.13.0"
 kubectl wait --for=condition=available --timeout=600s deployment/kserve-controller-manager -n kserve
-```
-
-KServe supports Knative, Standard, and ModelMesh deployment modes[cite: 56]. LLM deployments must leverage the Standard mode, which utilizes plain Kubernetes deployments, avoiding Knative's dynamic autoscaling constraints that are incompatible with statically managed GPU resources[cite: 57, 60].
+```{{exec}}

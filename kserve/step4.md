@@ -1,16 +1,18 @@
-## Validating VFS Cross-Container Traversal
+# Step 4: Validating VFS Cross-Container Traversal and Architectural Hazards
 
-The `shareProcessNamespace: true` directive commands the container runtime to merge all containers into a single PID namespace, allowing cross-container Virtual File System (VFS) access via `/proc`[cite: 105, 108]. The symbolic link directs the `vllm-server` to the `modelcar`'s cached OCI overlay layer, duplicating zero bytes to disk[cite: 104, 108].
+## Architectural Theory
 
-Verify the runtime perceives the model weights as locally present in `/mnt/models`[cite: 108].
+The `shareProcessNamespace: true` directive commands the Linux container runtime to merge all containers within the Pod into a unified PID namespace. This permits cross-container Virtual File System (VFS) traversal via the `/proc` filesystem. The symbolic link placed by the sidecar routes the primary inference container directly to the modelcar's cached OCI overlay layer, achieving model access with zero bytes copied to local disk.
+
+While effective for zero-copy data sharing, this manual architecture introduces critical operational vulnerabilities:
+
+1. **Startup Race Conditions**: The serving runtime and modelcar sidecar initialize concurrently. If the serving runtime attempts to access the weights before the modelcar establishes the symbolic link, the deployment enters a crash loop. Resolving this requires native Kubernetes 1.28+ sidecars (`initContainers` with `restartPolicy: Always`) to enforce deterministic startup sequencing.
+2. **Security Boundary Degradation**: Unified process namespaces destroy Pod-level security isolation. Service meshes, such as Istio, do not encrypt local configurations; consequently, sidecar injection exposes sensitive mTLS tokens and environment variables across the entire shared namespace, violating zero-trust principles.
+
+## Deployment Execution
+
+Verify that the serving runtime perceives the model weights as locally present within the shared `/mnt/models` directory without any actual data duplication taking place.
 
 ```bash
 kubectl exec -it vllm-manual-modelcar -c vllm-server -- ls -la /mnt/models
-```
-
-### Architectural Hazards
-
-This architecture introduces strict operational hazards:
-
-1. **Startup Race Conditions**: The serving runtime and modelcar container initialize in parallel[cite: 109]. If the runtime starts before the symlink is placed, the deployment crashes[cite: 109]. Native Kubernetes 1.28+ sidecars (`initContainers` with `restartPolicy: Always`) are required to enforce startup ordering[cite: 109].
-2. **Security Degradation**: `shareProcessNamespace` destroys Pod isolation boundaries[cite: 109]. Service meshes like Istio do not encrypt local configurations; sidecar injection exposes mTLS tokens and environment variables across the namespace[cite: 109].
+```{{exec}}
