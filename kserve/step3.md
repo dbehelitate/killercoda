@@ -60,5 +60,5 @@ spec:
 EOF_YAML
 
 kubectl apply -f manual-modelcar-pod.yaml
-kubectl wait --for=condition=Ready --timeout=300s pod/vllm-manual-modelcar
+kubectl wait --for=condition=Ready --timeout=50s pod/vllm-manual-modelcar
 ```{{exec}}
