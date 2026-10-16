@@ -2,7 +2,11 @@
   "title": "KServe Modelcars and Zero-Copy OCI Loading",
   "description": "Architect and deploy KServe modelcars. Analyze process namespace sharing, /proc VFS symlinking, and KServe InferenceService abstractions.",
   "backend": {
-    "imageid": "kubernetes-kubeadm-1node"
+    "imageid": "kubernetes-kubeadm-1node",
+    "resources": {
+      "ram": "4Gi",
+      "cpu": "2"
+    }
   },
   "details": {
     "intro": {
