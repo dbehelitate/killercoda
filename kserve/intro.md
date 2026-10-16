@@ -1,4 +1,4 @@
-# KServe with vLLM an LLM as SideCar 
+# Kserve Container --symlink--> OCI Modelcar
 
 This scenario demonstrates the implementation of zero-copy Large Language Model (LLM) weight sharing utilizing Open Container Initiative (OCI) modelcar sidecars.
   
