@@ -2,9 +2,13 @@
 
 ## Architectural Theory
 
-Traditional model initialization relies on `initContainers` copying data from remote storage into `emptyDir` volumes. Copying gigabytes of data for Large Language Models (LLMs) per Pod replica causes severe node-level I/O bottlenecks and critically increases startup latency. KServe mitigates this anti-pattern through direct OCI image execution.
+Traditional model initialization relies on `initContainers` copying data from remote storage into `emptyDir` volumes.
+Copying gigabytes of data for Large Language Models (LLMs) per Pod replica causes severe node-level I/O bottlenecks and critically increases startup latency. 
 
-The KServe control plane requires a certificate manager to enforce mutual TLS for its mutating and validating admission webhooks. KServe extends the Kubernetes API via Custom Resource Definitions (CRDs). 
+KServe mitigates this anti-pattern through direct OCI image execution.
+
+The KServe control plane requires a certificate manager to enforce mutual TLS for its mutating and validating admission webhooks. 
+
 
 
 ## Deployment Execution
