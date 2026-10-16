@@ -4,7 +4,9 @@
 
 Kubernetes natively isolates container processes. To achieve zero-copy data sharing, the Pod specification must be forced to share its process namespace (`shareProcessNamespace: true`). 
 
-A minimal sidecar container (modelcar) caches the OCI layer and exposes it via the Linux Virtual File System (VFS). It executes a symbolic link pointing the primary inference runtime (vLLM) directly to the cached weights via the host's `/proc` hierarchy. The vLLM engine parameters are explicitly constrained to prevent KV cache overallocation and avoid Out-Of-Memory (OOM) kernel panics on resource-limited nodes.
+A minimal sidecar container (modelcar) executes a sym link pointing the primary inference runtime (vLLM) directly to the cached weights via the host's `/proc` hierarchy. 
+
+The vLLM engine parameters are explicitly constrained to prevent KV cache overallocation and avoid Out-Of-Memory (OOM) kernel panics on resource-limited nodes.
 
 ## Deployment Execution
 
