@@ -12,5 +12,8 @@ The Kubernetes Container Runtime Interface (CRI) allows instantaneous, zero-copy
 ## Architecture and Objectives
 The workload execution is divided into two distinct technical phases:
 
-1. **Manual Primitive Reconstruction**: Direct manipulation of Linux process namespace sharing (`shareProcessNamespace: true`) and Virtual File System (VFS) traversal via `/proc` symlinking. This exposes read-only OCI image layers across pod container boundaries without physical data duplication.
-2. **Control Plane Abstraction**: Declarative deployment of the architecture leveraging KServe's `InferenceService`. This demonstrates the automated, controller-driven injection of sidecars and shared memory volumes to abstract underlying kernel primitives.
+1. **Manual Primitive Reconstruction**:
+   -Direct manipulation of Linux process namespace sharing (`shareProcessNamespace: true`)
+   -`/proc` symlinking. This exposes read-only OCI image layers across pod container boundaries without physical data duplication.
+   
+3. **Control Plane Abstraction**: Declarative deployment of the architecture leveraging KServe's `InferenceService`. This demonstrates the automated, controller-driven injection of sidecars and shared memory volumes to abstract underlying kernel primitives.
