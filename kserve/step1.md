@@ -21,16 +21,9 @@ curl -fsSL https://github.com/kserve/kserve/releases/download/v0.20.0/kserve-sta
 
 
 Wait --timeout=60 seconds for safety of killercoda playgound
-
+Optional
+  
 ```bash
-# 1. Install a supported version of cert-manager (v1.15.0 or newer)
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.0/cert-manager.yaml
-kubectl wait --for=condition=available --timeout=60s deployment/cert-manager-webhook -n cert-manager
-
-# 2. Install KServe using --server-side
-kubectl apply --server-side -k "https://github.com/kserve/kserve/config/default?ref=v0.20.0"
-kubectl wait --for=condition=available --timeout=60s deployment/kserve-controller-manager -n kserve
-
 # 3. If removing kube-rbac-proxy is required for your environment:
 kubectl patch deployment kserve-controller-manager -n kserve --type='json' -p='[
   {"op": "remove", "path": "/spec/template/spec/containers/1"}
