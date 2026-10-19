@@ -102,11 +102,11 @@ spec:
       modelFormat:
         name: huggingface
       
-     
+      # 1. THE CURE FOR THE 10GB DOWNLOAD: 
       # Force KServe to use TGI's CPU-compiled image instead of the default ClusterServingRuntime
       image: ghcr.io/huggingface/text-generation-inference:latest-cpu
       
-      # OCI MODELCAR: 
+      # 2. OCI MODELCAR: 
       # KServe natively handles the sidecar and symlinks for this in the background
       storageUri: oci://modelcar-tinygpt2:latest
       
