@@ -1,11 +1,12 @@
 # Zero-Copy Pattern
 ## Architecture and Objectives
-### 1) COPY 750 Gb of Ai = BAD X 
-### 2) READ 750 Gb of Ai =  GOOD V 
-
-Copy = 750 GB added to each pod , it's a bottleneck.
-Read = 750 Gb is read by each pod without copying files.
-
+  
+### 1) COPY 750 Gb of Ai = BAD X   
+### 2) READ 750 Gb of Ai =  GOOD V   
+  
+Copy = 750 GB added to each pod , it's a bottleneck.  
+Read = 750 Gb is read by each pod without copying files.  
+  
 https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
 
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
