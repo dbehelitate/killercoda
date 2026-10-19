@@ -99,6 +99,20 @@ kubectl exec tiny-gguf -c modelcar -n kserve-test -- ls -la /mnt/
 kubectl wait --for=condition=Ready --timeout=50s -n kserve-test pod/tinygpt2
 ```{{exec}}
 
+AI HELLO WORLD
+POD_IP=$(kubectl get pod tiny-gguf -n kserve-test -o jsonpath='{.status.podIP}')
+
+curl -X POST http://$POD_IP:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "system", "content": "Sei un assistente AI molto conciso."},
+      {"role": "user", "content": "Ciao! Scrivi solo Hello World per confermare che funzioni."}
+    ],
+    "max_tokens": 50,
+    "temperature": 0.1
+  }'
+
 IN COSTRUZIONE
 KSERVE NATIVE WAY
 
