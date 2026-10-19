@@ -89,7 +89,10 @@ spec:
 EOF
 ```{{exec}}
 
+#verifica pod
 kubectl get pods -n kserve-test -w
+#verifica symlink
+kubectl exec tiny-gguf -c modelcar -n kserve-test -- ls -la /mnt/
 
 ```bash
 # 4. Attendi che il Pod sia completamente operativo (50 secondi)
