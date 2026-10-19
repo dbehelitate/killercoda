@@ -4,11 +4,7 @@ An OCI registry functions as a centralized model registry by encapsulating the m
 
 For more read:   
 OCI:  
-https://opencontainers.org/  
-Docker Hub OCI Models:  
-https://www.docker.com/blog/oci-artifacts-for-ai-model-packaging/  
-CNCF Blog:  
-https://www.cncf.io/blog/2025/08/27/how-oci-artifacts-will-drive-future-ai-use-cases/
+https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
   
 ## OCI and Kubernetes
 Packaging Ai models as OCI images enables Kubernetes nodes to deduplicate identical layers across specialized models that share foundational weights, leveraging local caching mechanisms for maximum efficiency. 
