@@ -31,38 +31,44 @@ cat << 'EOF_YAML' | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
-  name: tinygpt2
+  name: tiny-gguf
   namespace: kserve-test
 spec:
   shareProcessNamespace: true
   containers:
   - name: kserve-container
-    image: kserve/huggingfaceserver:v0.13.0
+    image: ghcr.io/ggerganov/llama.cpp:server
+    # Attende che il modelcar crei il symlink prima di lanciare il server
+    command:
+    - "sh"
+    - "-c"
     args:
-    - "--model_name=tinygpt2"
-    - "--model_dir=/mnt/models"
-    - "--backend=huggingface"
+    - |
+      while [ ! -f /mnt/models/model.gguf ]; do
+        echo "Waiting for modelcar symlink...";
+        sleep 1;
+      done;
+      exec /server -m /mnt/models/model.gguf --host 0.0.0.0 --port 8080
     ports:
     - containerPort: 8080
     resources:
       requests:
         cpu: "100m"
-        memory: "1Gi"
+        memory: "256Mi"
       limits:
         cpu: "1"
-        memory: "2Gi"
+        memory: "1Gi"
     volumeMounts:
     - mountPath: /mnt
       name: kserve-provision-location
   - name: modelcar
-    # NOME CANONICO COMPLETO per far felice containerd
-    image: docker.io/library/modelcar-tinygpt2:latest
+    image: docker.io/library/modelcar-tiny-gguf:latest
     imagePullPolicy: Never
     command:
     - "sh"
     - "-c"
     args:
-    - "ln -sf /proc/$$$$/root/models /mnt/ && sleep infinity"
+    - "ln -sf /proc/$$/root/models /mnt/ && sleep infinity"
     resources:
       requests:
         cpu: "10m"
@@ -77,7 +83,6 @@ spec:
   - name: kserve-provision-location
     emptyDir: {}
 EOF_YAML
-#Hai affrontato e risolto praticamente tutte le insidie tecniche principali dei Modelcar in ambienti resource-constrained. Ottimo lavoro di debug!
 ```{{exec}}
 
 ```bash
