@@ -3,6 +3,8 @@
 ### 1) COPY 750 Gb of Ai Model for each Pod = BAD X (750 GB X 10)
 ### 2) READ 750 Gb Ai Model  for each Pod =  GOOD V (750 Gb)
 
+https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
+
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
 
 The Kubernetes Container Runtime Interface (CRI) allows instantaneous, zero-copy sharing of foundational weights across pods.
