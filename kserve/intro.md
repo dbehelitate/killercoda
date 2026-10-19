@@ -1,11 +1,7 @@
-# ModelCar
+# ModelCar Zero-Copy Pattern
 ## Architecture and Objectives
-### 1) USING ONLY INITCONTAINERS AND EMPTYDIR IS BAD
-### 2) READ Ai vs COPY Ai BOTTLENECKS.
-USING INITCONTAINER and EMPTYDIR as a way to download DeepSeak (750gb) AI MODELS to 10 pods 
-you wil copy 750 gb to 10 times.
-We want to achive 1 MODEL (750 GB) READ BY 10 PODS WITHOUT ADDITIONAL SPACE REQUIRED
-
+### 1) COPY 750 Gb of Ai Model for each Pod = BAD X (750 GB X 10)
+### 2) READ 750 Gb Ai Model  for each Pod =  GOOD V (750 Gb)
 
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
 
