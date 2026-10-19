@@ -1,11 +1,3 @@
-WORK IN PROGRESS !!!
-
-
-SETUP: COMPLETE
-
-
-CYBERSECURITY SIMULATIONS: IN SAFE VIRTUAL MACHINE LABORATORY.
-
 <p align="center">
   <img width="200" height="100" alt="brain_logo-B6LLJ4-J" src="https://github.com/user-attachments/assets/e692f026-dfb0-40d0-9462-ef4cfc8c5c4f" />  
 </p>  
