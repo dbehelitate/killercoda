@@ -22,9 +22,11 @@ curl -fsSL https://github.com/kserve/kserve/releases/download/v0.20.0/kserve-sta
 
 Wait --timeout=60 seconds for safety of killercoda playgound
 Optional
+
   
 ```bash
-# 3. If removing kube-rbac-proxy is required for your environment:
+ #removing kube-rbac-proxy if space is needed
+  
 kubectl patch deployment kserve-controller-manager -n kserve --type='json' -p='[
   {"op": "remove", "path": "/spec/template/spec/containers/1"}
 ]'
