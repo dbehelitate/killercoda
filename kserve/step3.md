@@ -24,13 +24,15 @@ Killercoda is only 4gb so  vLLM engine parameters are explicitly constrained to 
 
 Write and apply the manual Pod manifest to validate the underlying Linux kernel primitives before introducing control plane automation.
 
+
+
 ```bash
-# 1. Rimuovi il pod precedente (se bloccato o in errore)
-kubectl delete pod tinygpt2 -n kserve-test --ignore-not-found
+# 1. Crea il namespace di workload (se non esiste già)
+kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
 ```{{exec}}
 
 ```bash
-# 2. Crea il Pod usando il runtime HuggingFace CPU-only
+# 3. Crea il Pod usando il runtime HuggingFace CPU-only
 cat << 'EOF_YAML' | kubectl apply -f -
 apiVersion: v1
 kind: Pod
@@ -60,7 +62,7 @@ spec:
     - mountPath: /mnt
       name: kserve-provision-location
   - name: modelcar
-    image: modelcar-tinygpt2:1.0
+    image: modelcar-tinygpt2:latest
     imagePullPolicy: Never
     command:
     - "sh"
@@ -77,12 +79,20 @@ EOF_YAML
 ```{{exec}}
 
 ```bash
-# 3. Attendi che il Pod sia completamente operativo
+# 4. Attendi che il Pod sia completamente operativo
 kubectl wait --for=condition=Ready --timeout=150s -n kserve-test pod/tinygpt2
 ```{{exec}}
 
 IN COSTRUZIONE
 KSERVE NATIVE WAY
+
+
+```bash
+#  Rimuovi il pod precedente (se bloccato o in errore)
+kubectl delete pod tinygpt2 -n kserve-test --ignore-not-found
+```{{exec}}
+
+
 ```bash
 # 1. Abilita Modelcar nel control plane di KServe
 kubectl patch configmap inferenceservice-config -n kserve \
