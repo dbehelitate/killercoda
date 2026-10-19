@@ -10,14 +10,6 @@ The Kubernetes Container Runtime Interface (CRI) allows instantaneous, zero-copy
 This scenario demonstrates the implementation of zero-copy Large Language Model (LLM) weight sharing utilizing Open Container Initiative (OCI) modelcar sidecars.
   
 This demonstrates the injection of sidecars and shared memory volumes to abstract underlying kernel primitives.
-
-**IMPORTANT CONCEPTS**:
-Linux process namespace sharing (`shareProcessNamespace: true`):
-https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/
-    
-symlinks:
-https://man7.org/linux/man-pages/man2/symlink.2.html
-   
   
 **KServe Documentation**:
 Declarative deployment of KServe's `InferenceService`.
@@ -25,3 +17,9 @@ https://kserve.github.io/website/docs/model-serving/generative-inference/llmisvc
   
 **Qwen 2.5 Ai**
 https://huggingface.co/collections/Qwen/qwen25
+
+**IMPORTANT CONCEPTS**:
+Linux process namespace sharing (`shareProcessNamespace: true`):
+https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/
+symlinks: https://man7.org/linux/man-pages/man2/symlink.2.html
+   
