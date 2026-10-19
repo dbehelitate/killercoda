@@ -11,7 +11,7 @@ The KServe control plane requires a certificate manager to enforce mutual TLS fo
 
 ```bash
 kubectl create namespace kserve
-```
+```{{exec}}
 
 ## Deployment Execution
 
