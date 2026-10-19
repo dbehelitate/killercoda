@@ -94,25 +94,19 @@ kubectl wait --for=condition=Ready --timeout=150s -n kserve-test pod/tinygpt2
 
 KSERVE NATIVE WAY
 ```bash
-# 1. Abilita il supporto Modelcar nella ConfigMap di KServe
+# 1. Abilita Modelcar nel control plane di KServe
 kubectl patch configmap inferenceservice-config -n kserve \
   --type merge \
   -p '{"data": {"storageInitializer": "{\"enableModelcar\": true}"}}'
-```{{exec}}
-  
-```bash
-# 2. Crea il namespace dedicato ai carichi di lavoro
-kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
-```{{exec}}
 
-```bash
-# 3. Rebuild dell'immagine con tag :1.0 e import nel namespace k8s.io di containerd
+# 2. Crea il namespace di workload
+kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
+
+# 3. COMPONENTE MANCANTE: Build e Import in containerd con tag :1.0
 docker build -t modelcar-tinygpt2:1.0 . && \
 docker save modelcar-tinygpt2:1.0 | ctr -n k8s.io images import -
-```{{exec}}
 
-```bash
-# 4. Applica l'InferenceService nel namespace applicativo
+# 4. Applica il KServe InferenceService nativo
 kubectl apply -n kserve-test -f - <<'EOF'
 apiVersion: "serving.kserve.io/v1beta1"
 kind: "InferenceService"
@@ -132,4 +126,8 @@ spec:
           cpu: "2"
           memory: "2Gi"
 EOF
+
+# 5. Monitora l'InferenceService fino a quando non è pronto
+kubectl wait --for=condition=Ready --timeout=150s -n kserve-test inferenceservice/tinygpt2
+
 ```{{exec}}
