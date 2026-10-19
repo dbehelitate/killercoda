@@ -18,23 +18,23 @@
         "text": "step1.md"
       },
       {
-        "title": "Passive OCI Artifact Packaging",
+        "title": "What's an OCI container?",
         "text": "step2.md"
       },
       {
-        "title": "Manual Architecture: Namespaces and Sidecars",
+        "title": "Be an Architect: Namespaces and Sidecars",
         "text": "step3.md"
       },
       {
-        "title": "Validating VFS Cross-Container Traversal",
+        "title": "Use sym links",
         "text": "step4.md"
       },
       {
-        "title": "KServe Storage Initializer Configuration",
+        "title": "KServe storage",
         "text": "step5.md"
       },
       {
-        "title": "InferenceService Abstraction and Native Volumes",
+        "title": "InferenceService and  Volumes",
         "text": "step6.md"
       }
     ]
