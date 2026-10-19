@@ -11,21 +11,13 @@ That's why we use KServe and don't use emptydir , or pull a model in every pod.
   
 This is the Example but the same logic and pattern can be used WITHOUT KSERVE and we are going to show how KSERVE USE SYMLINK to build the modelcar.
   
-https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
-
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
-
-
   
-**KServe Documentation**:
-Declarative deployment of KServe's `InferenceService`.
-https://kserve.github.io/website/docs/model-serving/generative-inference/llmisvc/llmisvc-overview
+**KServe OCI Container**
+https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
   
-**Qwen 2.5 Ai**
+**TinyGPT2**
 https://huggingface.co/collections/Qwen/qwen25
+  
+  
 
-**IMPORTANT CONCEPTS**:
-Linux process namespace sharing (`shareProcessNamespace: true`):
-https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/
-symlinks: https://man7.org/linux/man-pages/man2/symlink.2.html
-   
