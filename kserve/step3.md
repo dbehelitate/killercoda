@@ -28,7 +28,7 @@ Write and apply the manual Pod manifest to validate the underlying Linux kernel 
 # 1. Ensure the namespace exists
 kubectl create namespace kserve --dry-run=client -o yaml | kubectl apply -f -
 
-# 2. Write the YAML using a single-quoted HereDoc so bash doesn't expand the $$$$
+
 cat << 'EOF_YAML' > manual-pod.yaml
 apiVersion: v1
 kind: Pod
@@ -89,44 +89,46 @@ spec:
   - name: kserve-provision-location
     emptyDir: {}
 EOF_YAML
-
-# 3. Apply and wait for the pod
+```{{exec}}
+  
+```bash
 kubectl apply -f manual-pod.yaml
 kubectl wait --for=condition=Ready --timeout=120s -n kserve pod/tinygpt2
 ```{{exec}}
 
 
 KSERVE NATIVE WAY
-```YAML
-apiVersion: serving.kserve.io/v1beta1
-kind: InferenceService
+```bash
+# 1. Abilita il supporto Modelcar nella ConfigMap di KServe
+kubectl patch configmap inferenceservice-config -n kserve \
+  --type merge \
+  -p '{"data": {"storageInitializer": "{\"enableModelcar\": true}"}}'
+```{{exec}}
+  
+```bash
+# 2. Crea il namespace dedicato ai carichi di lavoro
+kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
+```{{exec}}
+
+```bash
+# 3. Rebuild dell'immagine con tag :1.0 e import nel namespace k8s.io di containerd
+docker build -t modelcar-tinygpt2:1.0 . && \
+docker save modelcar-tinygpt2:1.0 | ctr -n k8s.io images import -
+```{{exec}}
+
+```bash
+# 4. Applica l'InferenceService nel namespace applicativo
+kubectl apply -n kserve-test -f - <<'EOF'
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
 metadata:
-  name: tinygpt2
-  namespace: kserve
+  name: "tinygpt2"
 spec:
   predictor:
     model:
       modelFormat:
-        name: huggingface
-      
-      # 1. THE CURE FOR THE 10GB DOWNLOAD: 
-      # Force KServe to use TGI's CPU-compiled image instead of the default ClusterServingRuntime
-      image: ghcr.io/huggingface/text-generation-inference:latest-cpu
-      
-      # 2. OCI MODELCAR: 
-      # KServe natively handles the sidecar and symlinks for this in the background
-      storageUri: oci://modelcar-tinygpt2:latest
-      
-      env:
-        # TGI defaults to port 80, but KServe routes traffic to 8080
-        - name: PORT
-          value: "8080"
-          
-      args:
-        # 3. TGI-SPECIFIC ARGS: 
-        # TGI expects --model-id pointing to KServe's default mount path
-        - "--model-id=/mnt/models"
-        
+        name: "huggingface"
+      storageUri: "oci://modelcar-tinygpt2:1.0"
       resources:
         requests:
           cpu: "500m"
@@ -134,4 +136,5 @@ spec:
         limits:
           cpu: "2"
           memory: "2Gi"
-```
+EOF
+```{{exec}}
