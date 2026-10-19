@@ -34,7 +34,7 @@ spec:
   shareProcessNamespace: true
   containers:
   - name: kserve-container
-    image: vllm/vllm-openai:latest
+    image: vllm/vllm-openai-cpu:latest
     env:
     - name: VLLM_TARGET_DEVICE
       value: "cpu"
@@ -95,19 +95,35 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   name: tinygpt2
+  namespace: kserve
 spec:
   predictor:
     model:
       modelFormat:
         name: huggingface
+      
+     
+      # Force KServe to use TGI's CPU-compiled image instead of the default ClusterServingRuntime
+      image: ghcr.io/huggingface/text-generation-inference:latest-cpu
+      
+      # OCI MODELCAR: 
+      # KServe natively handles the sidecar and symlinks for this in the background
       storageUri: oci://modelcar-tinygpt2:latest
+      
+      env:
+        # TGI defaults to port 80, but KServe routes traffic to 8080
+        - name: PORT
+          value: "8080"
+          
       args:
-        - --model_name=tinygpt2
-        - --backend=huggingface
+        # 3. TGI-SPECIFIC ARGS: 
+        # TGI expects --model-id pointing to KServe's default mount path
+        - "--model-id=/mnt/models"
+        
       resources:
         requests:
           cpu: "500m"
           memory: "1Gi"
         limits:
-          cpu: "1"
+          cpu: "2"
           memory: "2Gi"
