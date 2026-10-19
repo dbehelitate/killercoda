@@ -27,11 +27,6 @@ Write and apply the manual Pod manifest to validate the underlying Linux kernel 
 
 
 ```bash
-# 1. Crea il namespace di workload (se non esiste già)
-kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
-```{{exec}}
-
-```bash
 cat << 'EOF_YAML' | kubectl apply -f -
 apiVersion: v1
 kind: Pod
@@ -60,7 +55,8 @@ spec:
     - mountPath: /mnt
       name: kserve-provision-location
   - name: modelcar
-    image: modelcar-tinygpt2:latest
+    # NOME CANONICO COMPLETO per far felice containerd
+    image: docker.io/library/modelcar-tinygpt2:latest
     imagePullPolicy: Never
     command:
     - "sh"
@@ -81,6 +77,7 @@ spec:
   - name: kserve-provision-location
     emptyDir: {}
 EOF_YAML
+#Hai affrontato e risolto praticamente tutte le insidie tecniche principali dei Modelcar in ambienti resource-constrained. Ottimo lavoro di debug!
 ```{{exec}}
 
 ```bash
