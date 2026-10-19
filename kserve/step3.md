@@ -25,16 +25,16 @@ Killercoda is only 4gb so  vLLM engine parameters are explicitly constrained to 
 Write and apply the manual Pod manifest to validate the underlying Linux kernel primitives before introducing control plane automation.
 
 ```bash
-# 1. Ensure the namespace exists
-kubectl create namespace kserve --dry-run=client -o yaml | kubectl apply -f -
+# 1. Ensure the workload namespace exists
+kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
 
-
+# 2. Generate the manual Pod manifest aligned to the correct namespace
 cat << 'EOF_YAML' > manual-pod.yaml
 apiVersion: v1
 kind: Pod
 metadata:
   name: tinygpt2
-  namespace: kserve
+  namespace: kserve-test
 spec:
   shareProcessNamespace: true
   containers:
@@ -51,7 +51,6 @@ spec:
     - "--max-model-len"
     - "128"
     - "--enforce-eager"
-    # --- KILLERCODA ONLY SPECS ---
     - "--swap-space"
     - "0"
     - "--max-num-seqs"
@@ -59,7 +58,6 @@ spec:
     - "--dtype"
     - "float16"
     - "--disable-log-stats"
-    # -------------------------------------
     ports:
     - containerPort: 8000
     resources:
@@ -87,11 +85,10 @@ spec:
   - name: kserve-provision-location
     emptyDir: {}
 EOF_YAML
-```{{exec}}
-  
-```bash
+
+# 3. Apply the manifest and wait for the Pod in the correct namespace
 kubectl apply -f manual-pod.yaml
-kubectl wait --for=condition=Ready --timeout=120s -n kserve pod/tinygpt2
+kubectl wait --for=condition=Ready --timeout=150s -n kserve-test pod/tinygpt2
 ```{{exec}}
 
 
