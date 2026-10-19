@@ -12,7 +12,7 @@
     },
     {
       "path": "kserve",
-      "title": "KServe Qwen2.5 with vLLM in a sidecar "
+      "title": "KServe an LLM and Patterns"
     }
   ]
 }
