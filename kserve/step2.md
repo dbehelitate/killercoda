@@ -28,6 +28,8 @@ RUN apk add --no-cache git-lfs \
  && git clone --depth 1 https://huggingface.co/sshleifer/tiny-gpt2 /models
 ENTRYPOINT ["sh"]
 EOF_DOCKER
-
+```{{exec}}
+  
+```bash
 docker build -t modelcar-tinygpt2:latest .
 ```{{exec}}
