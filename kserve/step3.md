@@ -72,7 +72,6 @@ spec:
     volumeMounts:
     - mountPath: /mnt
       name: kserve-provision-location
-      
   - name: modelcar
     image: modelcar-tinygpt2:latest
     imagePullPolicy: Never
@@ -84,7 +83,6 @@ spec:
     volumeMounts:
     - mountPath: /mnt
       name: kserve-provision-location
-      
   volumes:
   - name: kserve-provision-location
     emptyDir: {}
