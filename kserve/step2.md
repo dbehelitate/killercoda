@@ -24,7 +24,10 @@ RUN apk add --no-cache git-lfs \
 ENTRYPOINT ["sh"]
 EOF_DOCKER
 ```{{exec}}
-  
+
 ```bash
-docker build -t modelcar-tinygpt2:latest .
+docker build -t modelcar-tinygpt2:latest . && \
+docker save modelcar-tinygpt2:latest | ctr -n k8s.io images import -
 ```{{exec}}
+
+In questo modo, non appena Docker finisce di creare l'immagine, questa viene immediatamente "iniettata" nello storage nativo di Kubernetes (`k8s.io` namespace di `containerd`). Quando applicherai il manifest del Pod, non avrai più l'errore `ErrImageNeverPull`.
