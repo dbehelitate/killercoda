@@ -9,7 +9,9 @@ KServe mitigates this anti-pattern through direct OCI image execution.
 
 The KServe control plane requires a certificate manager to enforce mutual TLS for its mutating and validating admission webhooks. 
 
-
+```bash
+kubectl create namespace kserve
+```
 
 ## Deployment Execution
 
@@ -18,13 +20,15 @@ Execute the following sequence to install the strict prerequisites (`cert-manage
 Wait 1 minute for safety of killer coda playgound
 
 ```bash
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml
+# 1. Install a supported version of cert-manager (v1.15.0 or newer)
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.0/cert-manager.yaml
 kubectl wait --for=condition=available --timeout=60s deployment/cert-manager-webhook -n cert-manager
 
-kubectl apply -k "https://github.com/kserve/kserve/config/default?ref=v0.13.0"
+# 2. Install KServe using --server-side
+kubectl apply --server-side -k "https://github.com/kserve/kserve/config/default?ref=v0.20.0"
 kubectl wait --for=condition=available --timeout=60s deployment/kserve-controller-manager -n kserve
 
-# Rimuove il sidecar kube-rbac-proxy incompatibile con l'ambiente isolato Killercoda
+# 3. If removing kube-rbac-proxy is required for your environment:
 kubectl patch deployment kserve-controller-manager -n kserve --type='json' -p='[
   {"op": "remove", "path": "/spec/template/spec/containers/1"}
 ]'
