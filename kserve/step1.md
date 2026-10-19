@@ -13,7 +13,7 @@ KServe mitigates this anti-pattern through direct OCI image execution.
 ```bash
 kubectl create namespace kserve
 ``` {{exec}}
-```
+
 
 ## Install KServe
 ## Wait 1 minute for safety of killer coda playgound
