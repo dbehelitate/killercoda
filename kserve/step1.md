@@ -12,7 +12,7 @@ KServe mitigates this anti-pattern through direct OCI image execution.
   
 ```bash
 kubectl create namespace kserve
-``` {{exec}}
+```{{exec}}
 
 
 ## Install KServe
