@@ -15,10 +15,11 @@ Create the `Dockerfile` and execute the local container image build. The `git cl
 
 ```bash
 cat << 'EOF_DOCKER' > Dockerfile
-FROM alpine/git
-RUN apk add --no-cache git-lfs \
- && git lfs install \
- && git clone --depth 1 https://huggingface.co/sshleifer/tiny-gpt2 /models
+FROM alpine
+RUN apk add --no-cache wget
+RUN mkdir -p /models
+# Scarichiamo un modello GGUF piccolissimo (~400MB) direttamente in /models
+RUN wget -O /models/model.gguf https://huggingface.co/Qwen/Qwen1.5-0.5B-Chat-GGUF/resolve/main/qwen1_5-0_5b-chat-q4_k_m.gguf
 ENTRYPOINT ["sh"]
 EOF_DOCKER
 ```{{exec}}
