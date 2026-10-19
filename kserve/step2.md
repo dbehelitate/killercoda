@@ -1,4 +1,4 @@
-# Step 2: OCI Artifacts  
+# Step 2: pull TinyGPT in Dockerfile
 
 An OCI registry functions as a centralized model registry by encapsulating the model weights directly within containers.
 
