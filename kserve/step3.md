@@ -32,7 +32,6 @@ kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f
 ```{{exec}}
 
 ```bash
-# 3. Crea il Pod usando il runtime HuggingFace CPU-only
 cat << 'EOF_YAML' | kubectl apply -f -
 apiVersion: v1
 kind: Pod
@@ -45,18 +44,17 @@ spec:
   - name: kserve-container
     image: kserve/huggingfaceserver:v0.13.0
     args:
-    - "--model_name"
-    - "tinygpt2"
-    - "--model_dir"
-    - "/mnt/models"
+    - "--model_name=tinygpt2"
+    - "--model_dir=/mnt/models"
+    - "--backend=huggingface"
     ports:
     - containerPort: 8080
     resources:
       requests:
-        cpu: "500m"
-        memory: "512Mi"
+        cpu: "100m"
+        memory: "1Gi"
       limits:
-        cpu: "2"
+        cpu: "1"
         memory: "2Gi"
     volumeMounts:
     - mountPath: /mnt
@@ -68,7 +66,14 @@ spec:
     - "sh"
     - "-c"
     args:
-    - "ln -sf /proc/$$$$/root/models /mnt/models && sleep infinity"
+    - "ln -sf /proc/$$$$/root/models /mnt/ && sleep infinity"
+    resources:
+      requests:
+        cpu: "10m"
+        memory: "15Mi"
+      limits:
+        cpu: "10m"
+        memory: "15Mi"
     volumeMounts:
     - mountPath: /mnt
       name: kserve-provision-location
