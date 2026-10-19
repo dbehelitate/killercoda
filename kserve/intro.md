@@ -1,21 +1,21 @@
-# Zero-Copy Pattern
 ## Architecture and Objectives
   
+### 0) Zero-Copy Pattern
 ### 1) COPY 750 Gb of Ai = BAD X   
 ### 2) READ 750 Gb of Ai =  GOOD V   
   
-Copy = 750 GB added to each pod , it's a bottleneck.  
-Read = 750 Gb is read by each pod without copying files.  
+Copying 750 GB of Ai models to each pod , it's a bottleneck.  
+Each pod reading a Model without copying files it's better.
+
+That's why we use KServe and don't use emptydir , or pull a model in every pod.
+  
+This is the Example but the same logic and pattern can be used WITHOUT KSERVE and we are going to show how KSERVE USE SYMLINK to build the modelcar.
   
 https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
 
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
 
-The Kubernetes Container Runtime Interface (CRI) allows instantaneous, zero-copy sharing of foundational weights across pods.
-  
-This scenario demonstrates the implementation of zero-copy Large Language Model (LLM) weight sharing utilizing Open Container Initiative (OCI) modelcar sidecars.
-  
-This demonstrates the injection of sidecars and shared memory volumes to abstract underlying kernel primitives.
+
   
 **KServe Documentation**:
 Declarative deployment of KServe's `InferenceService`.
