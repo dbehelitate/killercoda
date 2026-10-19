@@ -1,15 +1,13 @@
-# Step 2: pull TinyGPT in Dockerfile
+# Step 2: pull TinyGPT 
 
-An OCI registry functions as a centralized model registry by encapsulating the model weights directly within containers.
-
-For more read:   
+An OCI registry encapsulates the model weights within containers.
+ 
 OCI:  
 https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
   
 ## OCI and Kubernetes
 Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers.
-
-This creates a data-only image that is never executed; it exists solely to be READ-ONLY from the filesystem.
+It exists solely to be READ-ONLY from the filesystem.
 
 ## Deployment Execution
 
