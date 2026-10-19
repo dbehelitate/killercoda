@@ -70,7 +70,7 @@ spec:
     - "sh"
     - "-c"
     args:
-    - "ln -sf /proc/$$/root/models /mnt/ && sleep infinity"
+    - "ln -sf /proc/$$$$/root/models /mnt/ && sleep infinity"
     resources:
       requests:
         cpu: "10m"
