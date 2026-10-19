@@ -1,19 +1,22 @@
-# Step 3: Manual Process Namespace Sharing and Sidecars
+# Step 3:  Namespace and Sidecars for TinyGPT
+  
+Kubernetes natively isolates container processes.  
+To achieve zero-copy data sharing, the Pod specification must share its process namespace in YAML deployment.
 
-## Architectural Theory
-
-Kubernetes natively isolates container processes. To achieve zero-copy data sharing, the Pod specification must be forced to share its process namespace (`shareProcessNamespace: true`). 
-
+```markdown
+(`shareProcessNamespace: true`). 
+```
+  
 A minimal sidecar container (modelcar) executes a sym link pointing the primary inference runtime (vLLM) directly to the cached weights via the host's `/proc` hierarchy. 
 
-The vLLM engine parameters are explicitly constrained to prevent KV cache overallocation and avoid Out-Of-Memory (OOM) kernel panics on resource-limited nodes.
+Killercoda is only 4gb so  vLLM engine parameters are explicitly constrained to prevent KV cache overallocation and avoid Out-Of-Memory (OOM) KERNEL PANICS on resource-limited nodes.
 
-## Deployment Execution
+## Deploying TinyGPT
 
 Write and apply the manual Pod manifest to validate the underlying Linux kernel primitives before introducing control plane automation.
 
 ```bash
-cat << 'EOF_YAML' > manual-modelcar-pod.yaml
+cat << 'EOF_YAML' > tinygpt-pod.yaml
 apiVersion: v1
 kind: Pod
 metadata:
