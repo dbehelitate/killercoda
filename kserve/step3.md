@@ -37,7 +37,8 @@ spec:
   shareProcessNamespace: true
   containers:
   - name: kserve-container
-    image: ghcr.io/ggerganov/llama.cpp:server
+    # 1. URL Aggiornato al nuovo registry
+    image: ghcr.io/ggml-org/llama.cpp:server
     # Attende che il modelcar crei il symlink prima di lanciare il server
     command:
     - "sh"
@@ -48,7 +49,8 @@ spec:
         echo "Waiting for modelcar symlink...";
         sleep 1;
       done;
-      exec /server -m /mnt/models/model.gguf --host 0.0.0.0 --port 8080
+      # 2. Comando aggiornato a llama-server
+      exec llama-server -m /mnt/models/model.gguf --host 0.0.0.0 --port 8080
     ports:
     - containerPort: 8080
     resources:
@@ -84,6 +86,8 @@ spec:
     emptyDir: {}
 EOF_YAML
 ```{{exec}}
+
+kubectl get pods -n kserve-test -w
 
 ```bash
 # 4. Attendi che il Pod sia completamente operativo (50 secondi)
