@@ -27,7 +27,7 @@ Write and apply the manual Pod manifest to validate the underlying Linux kernel 
 
 
 ```bash
-cat << 'EOF_YAML' | kubectl apply -f -
+cat << 'EOF' | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
@@ -37,11 +37,9 @@ spec:
   shareProcessNamespace: true
   containers:
   - name: kserve-container
-    # 1. URL Aggiornato al nuovo registry
     image: ghcr.io/ggml-org/llama.cpp:server
-    # Attende che il modelcar crei il symlink prima di lanciare il server
     command:
-    - "sh"
+    - "/bin/sh"
     - "-c"
     args:
     - |
@@ -49,8 +47,8 @@ spec:
         echo "Waiting for modelcar symlink...";
         sleep 1;
       done;
-      # 2. Comando aggiornato a llama-server
-      exec llama-server -m /mnt/models/model.gguf --host 0.0.0.0 --port 8080
+      # Usiamo il percorso assoluto /llama-server per massima sicurezza (da YAML 2)
+      exec /llama-server -m /mnt/models/model.gguf --host 0.0.0.0 --port 8080
     ports:
     - containerPort: 8080
     resources:
@@ -67,10 +65,14 @@ spec:
     image: docker.io/library/modelcar-tiny-gguf:latest
     imagePullPolicy: Never
     command:
-    - "sh"
+    - "/bin/sh"
     - "-c"
     args:
-    - "ln -sf /proc/$$$$/root/models /mnt/ && sleep infinity"
+    - |
+      # Il formato multi-riga è più pulito e gestisce i PID nativamente (da YAML 1)
+      PID=$$
+      ln -sf /proc/$PID/root/models /mnt/models
+      sleep infinity
     resources:
       requests:
         cpu: "10m"
@@ -84,7 +86,7 @@ spec:
   volumes:
   - name: kserve-provision-location
     emptyDir: {}
-EOF_YAML
+EOF
 ```{{exec}}
 
 kubectl get pods -n kserve-test -w
