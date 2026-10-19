@@ -3,21 +3,22 @@
 ## Architectural Theory
 
 Traditional model initialization relies on `initContainers` copying data from remote storage into `emptyDir` volumes.
+
 Copying gigabytes of data for Large Language Models (LLMs) per Pod replica causes severe node-level I/O bottlenecks and critically increases startup latency. 
 
 KServe mitigates this anti-pattern through direct OCI image execution.
-
-The KServe control plane requires a certificate manager to enforce mutual TLS for its mutating and validating admission webhooks. 
-
+  
+  
+  
 ```bash
 kubectl create namespace kserve
-```{{exec}}
+``` {{exec}}
+```
 
-## Deployment Execution
+## Install KServe
+## Wait 1 minute for safety of killer coda playgound
 
-Execute the following sequence to install the strict prerequisites (`cert-manager`) and deploy the KServe core infrastructure. The `wait` directives ensure the mutating webhooks are fully registered and operational before the cluster accepts subsequent resources.
-
-Wait 1 minute for safety of killer coda playgound
+  
 
 ```bash
 # 1. Install a supported version of cert-manager (v1.15.0 or newer)
