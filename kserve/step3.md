@@ -20,16 +20,18 @@ Because of this reduction, writing four dollar signs ($$$$) in the Kubernetes YA
 
 Killercoda is only 4gb so  vLLM engine parameters are explicitly constrained to prevent KV cache overallocation and avoid Out-Of-Memory (OOM) KERNEL PANICS on resource-limited nodes.
 
-## Deploying TinyGPT
+## Manual Deploying with $$$$ of TinyGPT
 
 Write and apply the manual Pod manifest to validate the underlying Linux kernel primitives before introducing control plane automation.
 
 ```bash
-# 1. Ensure the workload namespace exists
-kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
+# 1. Rimuovi il pod precedente (se bloccato o in errore)
+kubectl delete pod tinygpt2 -n kserve-test --ignore-not-found
+```{{exec}}
 
-# 2. Generate the manual Pod manifest aligned to the correct namespace
-cat << 'EOF_YAML' > manual-pod.yaml
+```bash
+# 2. Crea il Pod usando il runtime HuggingFace CPU-only
+cat << 'EOF_YAML' | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
@@ -39,39 +41,26 @@ spec:
   shareProcessNamespace: true
   containers:
   - name: kserve-container
-    image: vllm/vllm-openai-cpu:latest
-    env:
-    - name: VLLM_TARGET_DEVICE
-      value: "cpu"
+    image: kserve/huggingfaceserver:v0.13.0
     args:
-    - "--model"
-    - "/mnt/models"
-    - "--served-model-name"
+    - "--model_name"
     - "tinygpt2"
-    - "--max-model-len"
-    - "128"
-    - "--enforce-eager"
-    - "--swap-space"
-    - "0"
-    - "--max-num-seqs"
-    - "2"
-    - "--dtype"
-    - "float16"
-    - "--disable-log-stats"
+    - "--model_dir"
+    - "/mnt/models"
     ports:
-    - containerPort: 8000
+    - containerPort: 8080
     resources:
       requests:
         cpu: "500m"
         memory: "512Mi"
       limits:
         cpu: "2"
-        memory: "1.5Gi"
+        memory: "2Gi"
     volumeMounts:
     - mountPath: /mnt
       name: kserve-provision-location
   - name: modelcar
-    image: modelcar-tinygpt2:latest
+    image: modelcar-tinygpt2:1.0
     imagePullPolicy: Never
     command:
     - "sh"
@@ -85,13 +74,14 @@ spec:
   - name: kserve-provision-location
     emptyDir: {}
 EOF_YAML
+```{{exec}}
 
-# 3. Apply the manifest and wait for the Pod in the correct namespace
-kubectl apply -f manual-pod.yaml
+```bash
+# 3. Attendi che il Pod sia completamente operativo
 kubectl wait --for=condition=Ready --timeout=150s -n kserve-test pod/tinygpt2
 ```{{exec}}
 
-
+IN COSTRUZIONE
 KSERVE NATIVE WAY
 ```bash
 # 1. Abilita Modelcar nel control plane di KServe
