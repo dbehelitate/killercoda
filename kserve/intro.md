@@ -1,4 +1,4 @@
-# ModelCar Zero-Copy Pattern
+# Zero-Copy Pattern
 ## Architecture and Objectives
 ### 1) COPY 750 Gb of Ai Model for each Pod = BAD X (750 GB X 10)
 ### 2) READ 750 Gb Ai Model  for each Pod =  GOOD V (750 Gb)
