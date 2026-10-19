@@ -7,10 +7,9 @@ OCI:
 https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
   
 ## OCI and Kubernetes
-Packaging Ai models as OCI images enables Kubernetes nodes to deduplicate identical layers across specialized models that share foundational weights, leveraging local caching mechanisms for maximum efficiency. 
+Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers.
 
-This creates a data-only image that is never executed; 
-it exists solely to be READ-ONLY from the filesystem.
+This creates a data-only image that is never executed; it exists solely to be READ-ONLY from the filesystem.
 
 ## Deployment Execution
 
