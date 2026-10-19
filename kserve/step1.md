@@ -11,7 +11,11 @@ KServe mitigates this anti-pattern through direct OCI image execution.
 #### Install KServe 
   
 ```bash
+  
 kubectl create namespace kserve
+  
+curl -fsSL https://github.com/kserve/kserve/releases/download/v0.20.0/kserve-standard-mode-full-install-with-manifests.sh | bash
+  
 ```{{exec}}
 
 
