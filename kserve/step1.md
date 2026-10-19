@@ -8,17 +8,15 @@ Copying gigabytes of data for Large Language Models (LLMs) per Pod replica cause
 
 KServe mitigates this anti-pattern through direct OCI image execution.
   
-  
+#### Install KServe 
   
 ```bash
 kubectl create namespace kserve
 ```{{exec}}
 
 
-## Install KServe
-## Wait 1 minute for safety of killer coda playgound
 
-  
+Wait --timeout=60 seconds for safety of killercoda playgound
 
 ```bash
 # 1. Install a supported version of cert-manager (v1.15.0 or newer)
