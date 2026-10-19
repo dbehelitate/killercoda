@@ -79,8 +79,8 @@ EOF_YAML
 ```{{exec}}
 
 ```bash
-# 4. Attendi che il Pod sia completamente operativo
-kubectl wait --for=condition=Ready --timeout=150s -n kserve-test pod/tinygpt2
+# 4. Attendi che il Pod sia completamente operativo (50 secondi)
+kubectl wait --for=condition=Ready --timeout=50s -n kserve-test pod/tinygpt2
 ```{{exec}}
 
 IN COSTRUZIONE
