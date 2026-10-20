@@ -122,11 +122,8 @@ spec:
     - "/bin/sh"
     - "-c"
     args:
-    - |
-      # Il formato multi-riga è più pulito e gestisce i PID nativamente (da YAML 1)
-      PID=$$
-      ln -sf /proc/$PID/root/models /mnt/models
-      sleep infinity
+    args:
+    - ln -sf /proc/self/root/models /mnt/models && sleep infinity
     resources:
       requests:
         cpu: "10m"
