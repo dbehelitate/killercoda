@@ -32,12 +32,11 @@ EOF_DOCKER
 ```{{exec}}
 
 ```bash
-```bash
 docker build -t modelcar-tiny-gguf:latest . && \
 docker save modelcar-tiny-gguf:latest | sudo ctr -n k8s.io images import - && \
 docker rmi modelcar-tiny-gguf:latest
 ```{{exec}}
-```{{exec}}
+
 
 Kubernetes uses a different RunTime than Docker.
 We need to build and inject it inside containerd namespace.
