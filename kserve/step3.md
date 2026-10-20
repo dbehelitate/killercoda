@@ -91,6 +91,11 @@ spec:
 EOF
 ```
 
+```bash
+kubectl apply -f manual-pod.yaml
+```{{exec}}
+
+
 Wait for "Running" containers
 
 ```bash
