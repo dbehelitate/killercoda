@@ -23,18 +23,16 @@ The `git clone` command fetches the model weights.
 ```bash
 cat << 'EOF_DOCKER' > Dockerfile
 FROM alpine
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl ca-certificates
 RUN mkdir -p /models
-# Download con curl -sSL per gestire correttamente i reindirizzamenti 302 di HF (~100MB)
-RUN curl -sSL -o /models/model.gguf https://huggingface.co/bartowski/SmolLM2-135M-Instruct-GGUF/resolve/main/SmolLM2-135M-Instruct-Q4_K_M.gguf
-ENTRYPOINT ["sh"]
+# Il flag -f (fail) impedisce a curl di salvare pagine di errore 404
+RUN curl -fsSL -o /models/model.gguf https://huggingface.co/bartowski/SmolLM2-135M-Instruct-GGUF/resolve/main/SmolLM2-135M-Instruct-Q4_K_M.gguf
 EOF_DOCKER
-```{{exec}}
 
-```bash
-docker build -t modelcar-tiny-gguf:latest . && \
-docker save modelcar-tiny-gguf:latest | sudo ctr -n k8s.io images import - && \
-docker rmi modelcar-tiny-gguf:latest
+# Ricostruiamo e importiamo in containerd
+docker build -t docker.io/library/modelcar-tiny-gguf:latest . && \
+docker save docker.io/library/modelcar-tiny-gguf:latest | sudo ctr -n k8s.io images import - && \
+docker rmi docker.io/library/modelcar-tiny-gguf:latest
 ```{{exec}}
 
 
