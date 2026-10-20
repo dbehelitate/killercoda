@@ -11,12 +11,19 @@ KServe mitigates this anti-pattern through direct OCI image execution.
 #### Install KServe 
 
 ```bash
+  kubectl create namespace kserve
+```{{exec}}
+  
+
+```bash
 # 1. Install minimal CRDs
 helm install kserve-crd oci://ghcr.io/kserve/charts/kserve-crd-minimal \
   --version v0.20.0 \
   --namespace kserve \
   --create-namespace
-
+```{{exec}}
+  
+```bash
 # 2. Install KServe resources in Standard mode
 helm install kserve-resources oci://ghcr.io/kserve/charts/kserve-resources \
   --version v0.20.0 \
@@ -24,13 +31,10 @@ helm install kserve-resources oci://ghcr.io/kserve/charts/kserve-resources \
   --set kserve.controller.deploymentMode=Standard
   ```{{exec}}
   
-```bash
-  
-kubectl create namespace kserve
-```{{exec}}
 
 
-```bash  
+
+OLD INstall.
 curl -fsSL https://github.com/kserve/kserve/releases/download/v0.20.0/kserve-standard-mode-full-install-with-manifests.sh | bash
   
 ```{{exec}}
