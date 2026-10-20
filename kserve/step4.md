@@ -1,18 +1,26 @@
-# Step 4: Validating VFS Cross-Container Traversal and Architectural Hazards
+# Step 4: Hello World.
 
-## Architectural Theory
-
-The `shareProcessNamespace: true` directive commands the Linux container runtime to merge all containers within the Pod into a unified PID namespace. This permits cross-container Virtual File System (VFS) traversal via the `/proc` filesystem. The symbolic link placed by the sidecar routes the primary inference container directly to the modelcar's cached OCI overlay layer, achieving model access with zero bytes copied to local disk.
-
-While effective for zero-copy data sharing, this manual architecture introduces critical operational vulnerabilities:
-
-1. **Startup Race Conditions**: The serving runtime and modelcar sidecar initialize concurrently. If the serving runtime attempts to access the weights before the modelcar establishes the symbolic link, the deployment enters a crash loop. Resolving this requires native Kubernetes 1.28+ sidecars (`initContainers` with `restartPolicy: Always`) to enforce deterministic startup sequencing.
-2. **Security Boundary Degradation**: Unified process namespaces destroy Pod-level security isolation. Service meshes, such as Istio, do not encrypt local configurations; consequently, sidecar injection exposes sensitive mTLS tokens and environment variables across the entire shared namespace, violating zero-trust principles.
-
-## Deployment Execution
-
-Verify that the serving runtime perceives the model weights as locally present within the shared `/mnt/models` directory without any actual data duplication taking place.
 
 ```bash
-kubectl exec -it vllm-manual-modelcar -c vllm-server -- ls -la /mnt/models
+POD_IP=$(kubectl get pod tiny-gguf -n kserve-test -o jsonpath='{.status.podIP}')
+
+curl -s -X POST http://$POD_IP:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "system", "content": "You are a highly creative sci-fi AI. Generate a numbered list of 3 dramatic, cinematic ways to say '\''Hello World'\''. You MUST use cool and relevant emojis (like 🤖, 🌌, 🚀, ⚡) in every single line."},
+      {"role": "user", "content": "Give me 3 sci-fi variations of Hello World with emojis!"}
+    ],
+    "max_tokens": 150,
+    "temperature": 0.8
+  }' | jq -r '.choices[0].message.content'
 ```{{exec}}
+
+Is everything ok? 
+Click and Play! 🎈 Now let's open a magic window to chat with our robot!
+
+```bash
+kubectl port-forward --address 0.0.0.0 pod/tiny-gguf -n kserve-test 8080:8080 > /dev/null 2>&1 &
+```{{exec}}
+
+Now click the Traffic or Ports button at the top of your Killercoda screen, type 8080, and click the link to open your robot chat window!
