@@ -18,7 +18,7 @@ $$$$ =  Double $$ are reduced to a single $, which is Kubernetes' mechanism to e
 Because of this reduction, writing four dollar signs ($$$$) in the Kubernetes YAML ensures Kubernetes evaluates it down to two dollar signs ($$).
 ```
 
-Killercoda is only 4gb so  vLLM engine parameters are explicitly constrained to prevent KV cache overallocation and avoid Out-Of-Memory (OOM) KERNEL PANICS on resource-limited nodes.
+Killercoda is only 4gb so we will be aware and avoid Out-Of-Memory (OOM) KERNEL PANICS.
 
 ## Manual Deploying with $$$$ of TinyGPT
 
