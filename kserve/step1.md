@@ -14,30 +14,34 @@ KServe mitigates this anti-pattern through direct OCI image execution.
   kubectl create namespace kserve
 ```{{exec}}
   
-
 ```bash
-# 1. Install minimal CRDs
+# 1. Install cert-manager (prerequisite for KServe webhook certificates)
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --set crds.enabled=true \
+  --wait
+
+# 2. Install minimal CRDs
 helm install kserve-crd oci://ghcr.io/kserve/charts/kserve-crd-minimal \
   --version v0.20.0 \
   --namespace kserve \
   --create-namespace
-```{{exec}}
-  
-```bash
-# 2. Install KServe resources in Standard mode
+
+# 3. Install KServe resources in Standard mode
 helm install kserve-resources oci://ghcr.io/kserve/charts/kserve-resources \
   --version v0.20.0 \
   --namespace kserve \
-  --set kserve.controller.deploymentMode=Standard
-  ```{{exec}}
-  
-
-
+  --set kserve.controller.deploymentMode=Standard \
+  --wait
+```{{exec}}
 
 OLD INstall.
 curl -fsSL https://github.com/kserve/kserve/releases/download/v0.20.0/kserve-standard-mode-full-install-with-manifests.sh | bash
   
-```{{exec}}
+
 
 Now Wait --timeout=60 seconds for safety of killercoda playgound
 
