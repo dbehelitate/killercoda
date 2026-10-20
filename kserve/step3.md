@@ -41,7 +41,6 @@ spec:
   containers:
   - name: kserve-container
     image: ghcr.io/ggml-org/llama.cpp:server
-    # ENTRYPOINT native of Dockerfile
     args:
       - "-m"
       - "/mnt/models/model.gguf"
@@ -49,15 +48,17 @@ spec:
       - "0.0.0.0"
       - "--port"
       - "8080"
+      - "--ctx-size"
+      - "1024"
     ports:
     - containerPort: 8080
     resources:
       requests:
-        cpu: "100m"
-        memory: "256Mi"
+        cpu: "200m"
+        memory: "512Mi"
       limits:
         cpu: "1"
-        memory: "512Mi"
+        memory: "1Gi" 
     volumeMounts:
     - mountPath: /mnt
       name: kserve-provision-location
@@ -75,8 +76,8 @@ spec:
         cpu: "10m"
         memory: "15Mi"
       limits:
-        cpu: "10m"
-        memory: "15Mi"
+        cpu: "20m"
+        memory: "30Mi"
     volumeMounts:
     - mountPath: /mnt
       name: kserve-provision-location
@@ -103,20 +104,21 @@ kubectl exec tiny-gguf -c modelcar -n kserve-test -- ls -la /mnt/
 ```
 
 
-AI HELLO WORLD
+AI HELLO WORLD:
+  
 ```bash
 POD_IP=$(kubectl get pod tiny-gguf -n kserve-test -o jsonpath='{.status.podIP}')
 
-curl -X POST http://$POD_IP:8080/v1/chat/completions \
+curl -s -X POST http://$POD_IP:8080/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
     "messages": [
-      {"role": "system", "content": "Sei un assistente AI molto conciso."},
-      {"role": "user", "content": "Ciao! Scrivi solo Hello World per confermare che funzioni."}
+      {"role": "system", "content": "You are a highly creative sci-fi AI. Generate a numbered list of 3 dramatic, cinematic ways to say '\''Hello World'\''. You MUST use cool and relevant emojis (like 🤖, 🌌, 🚀, ⚡) in every single line."},
+      {"role": "user", "content": "Give me 3 sci-fi variations of Hello World with emojis!"}
     ],
-    "max_tokens": 50,
-    "temperature": 0.1
-  }'
+    "max_tokens": 150,
+    "temperature": 0.8
+  }' | jq -r '.choices[0].message.content'
 ```
 
 
