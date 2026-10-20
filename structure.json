@@ -3,16 +3,16 @@
   "description": "Playgrounds Agent Gateway con JEV e Promptfoo",
   "items": [
     {
+      "path": "kserve",
+      "title": "Gen Ai on Kubernetes"
+    },
+    {
       "path": "agentgateway--jev",
       "title": "Agent Gateway - JEV"
     },
     {
       "path": "agentgateway--promptfoo",
       "title": "Agent Gateway - Promptfoo"
-    },
-    {
-      "path": "kserve",
-      "title": "KServe an LLM and Patterns"
-    }
+    }   
   ]
 }
