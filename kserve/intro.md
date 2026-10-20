@@ -4,12 +4,8 @@ Goal: Zero-Copy AI
 ❌ COPY 750GB = 🐢  
 ✅ READ 750GB = 🚀  
 
-Copying 750 GB of Ai models to each pod , it's a bottleneck.  
-Each pod reading a Model without copying files it's better.
-
-That's why we use KServe and don't use emptydir , or pull a model in every pod.
-  
-This is the Example but the same logic and pattern can be used WITHOUT KSERVE and we are going to show how KSERVE USE SYMLINK to build the modelcar.
+⚠️ Copying 750GB to every pod is a bottleneck. Reading directly is the fix.
+Instead of using emptyDir, KServe uses symlinks to achieve this. Let's build the modelcar pattern from scratch to see exactly how it works under the hood.
   
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
   
