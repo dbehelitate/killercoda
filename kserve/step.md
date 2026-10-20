@@ -1,4 +1,4 @@
-# Step 1: Control Plane Initialization
+# Step 5: KServe Control Plane Initialization
 
 ## Architectural Theory
 
@@ -40,5 +40,13 @@ helm install kserve-resources oci://ghcr.io/kserve/charts/kserve-resources \
 
 Now Wait --timeout=60 seconds for safety of killercoda playgound
 
+Optional:
 
+```bash
+kubectl get configmap inferenceservice-config -n kserve -o json | \
+jq '.data.storageInitializer |= (fromjson | .enableModelcar = true | tojson)' | \
+kubectl apply -f -
 
+kubectl rollout restart deployment/kserve-controller-manager -n kserve
+kubectl rollout status deployment/kserve-controller-manager -n kserve
+```{{exec}}
