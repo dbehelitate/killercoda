@@ -59,7 +59,7 @@ spec:
         memory: "256Mi"
       limits:
         cpu: "1"
-        memory: "1Gi"
+        memory: "512Mi"
     volumeMounts:
     - mountPath: /mnt
       name: kserve-provision-location
