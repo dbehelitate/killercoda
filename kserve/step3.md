@@ -121,48 +121,4 @@ curl -X POST http://$POD_IP:8080/v1/chat/completions \
   }'
 ```
 
-IN COSTRUZIONE
-KSERVE NATIVE WAY
 
-```bash
-#  Rimuovi il pod precedente (se bloccato o in errore)
-kubectl delete pod tinygpt2 -n kserve-test --ignore-not-found
-```{{exec}}
-
-
-```bash
-# 1. Abilita Modelcar nel control plane di KServe
-kubectl patch configmap inferenceservice-config -n kserve \
-  --type merge \
-  -p '{"data": {"storageInitializer": "{\"enableModelcar\": true}"}}'
-```{{exec}}
-
-
-
-```bash
-# 4. Applica il KServe InferenceService nativo
-kubectl apply -n kserve-test -f - <<'EOF'
-apiVersion: "serving.kserve.io/v1beta1"
-kind: "InferenceService"
-metadata:
-  name: "tinygpt2"
-spec:
-  predictor:
-    model:
-      modelFormat:
-        name: "huggingface"
-      storageUri: "oci://modelcar-tinygpt2:1.0"
-      resources:
-        requests:
-          cpu: "500m"
-          memory: "1Gi"
-        limits:
-          cpu: "2"
-          memory: "2Gi"
-EOF
-```{{exec}}
-
-```bash
-# 5. Monitora l'InferenceService fino a quando non è pronto
-kubectl wait --for=condition=Ready --timeout=150s -n kserve-test inferenceservice/tinygpt2
-```{{exec}}
