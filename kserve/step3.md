@@ -24,6 +24,10 @@ Killercoda is only 4gb so we will be aware and avoid Out-Of-Memory (OOM) KERNEL 
 
 Write and apply the manual Pod manifest to validate the underlying Linux kernel primitives before introducing control plane automation.
 
+```bash
+# 2. Crea il namespace di workload
+kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
+```{{exec}}
 
 
 ```bash
@@ -89,17 +93,21 @@ spec:
 EOF
 ```{{exec}}
 
-#verifica pod
-kubectl get pods -n kserve-test -w
-#verifica symlink
-kubectl exec tiny-gguf -c modelcar -n kserve-test -- ls -la /mnt/
+Wait for "Running" containers
 
 ```bash
-# 4. Attendi che il Pod sia completamente operativo (50 secondi)
-kubectl wait --for=condition=Ready --timeout=50s -n kserve-test pod/tinygpt2
+#verifica pod
+kubectl get pods -n kserve-test -w
 ```{{exec}}
 
+```bash
+#verifica symlink
+kubectl exec tiny-gguf -c modelcar -n kserve-test -- ls -la /mnt/
+```
+
+
 AI HELLO WORLD
+```bash
 POD_IP=$(kubectl get pod tiny-gguf -n kserve-test -o jsonpath='{.status.podIP}')
 
 curl -X POST http://$POD_IP:8080/v1/chat/completions \
@@ -112,10 +120,10 @@ curl -X POST http://$POD_IP:8080/v1/chat/completions \
     "max_tokens": 50,
     "temperature": 0.1
   }'
+```
 
 IN COSTRUZIONE
 KSERVE NATIVE WAY
-
 
 ```bash
 #  Rimuovi il pod precedente (se bloccato o in errore)
@@ -130,16 +138,7 @@ kubectl patch configmap inferenceservice-config -n kserve \
   -p '{"data": {"storageInitializer": "{\"enableModelcar\": true}"}}'
 ```{{exec}}
 
-```bash
-# 2. Crea il namespace di workload
-kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
-```{{exec}}
 
-```bash
-# 3. COMPONENTE MANCANTE: Build e Import in containerd con tag :1.0
-docker build -t modelcar-tinygpt2:1.0 . && \
-docker save modelcar-tinygpt2:1.0 | ctr -n k8s.io images import -
-```{{exec}}
 
 ```bash
 # 4. Applica il KServe InferenceService nativo
