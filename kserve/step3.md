@@ -1,17 +1,14 @@
-# Step 3:  Namespace and Sidecars for TinyGPT
+# Step 3: llama.cpp container and  TinyGPT sidecar
   
 Kubernetes natively isolates container processes.  
 To achieve zero-copy data sharing, the Pod specification must share its process namespace in YAML deployment.
 
 ```markdown
 (`shareProcessNamespace: true`).
-The Kubernetes’ pod specification supports a relatively unknown property called
-shareProcessNamespace. By default, containers that Kubernetes starts for a pod
-cannot see each other.
-This allows the container to “see” other processes from othercontainers.
+This allows the container to “see” other processes from other containers in the same pod.
 ```
   
-A minimal sidecar container (modelcar) executes a sym link pointing the primary inference runtime (vLLM) directly to the cached weights via the host's `/proc` hierarchy. 
+A minimal sidecar container (modelcar) executes a sym link pointing the primary inference runtime (llama.cpp) directly to the cached weights via the host's `/proc` hierarchy. 
 
 ```markdown
 $$$$ =  Double $$ are reduced to a single $, which is Kubernetes' mechanism to escape the $(VAR_NAME) syntax and produce a literal $ 
@@ -75,7 +72,7 @@ spec:
     args:
     - |
       # Il formato multi-riga è più pulito e gestisce i PID nativamente (da YAML 1)
-      PID=$$
+      PID=$$$$
       ln -sf /proc/$PID/root/models /mnt/models
       sleep infinity
     resources:
