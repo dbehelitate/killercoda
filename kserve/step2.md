@@ -7,11 +7,13 @@ https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_so
   
 ## OCI and Kubernetes
 Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers.
-It exists solely to be READ-ONLY from the filesystem.
+
 
 ## Deployment Execution
 
-Create the `Dockerfile` and execute the local container image build. The `git clone` command fetches the model weights directly into the OCI layer.
+Create the `Dockerfile` and executethe image build. 
+    
+The `git clone` command fetches the model weights.
 
 ```bash
 cat << 'EOF_DOCKER' > Dockerfile
@@ -30,4 +32,6 @@ docker save docker.io/library/modelcar-tiny-gguf:latest | ctr -n k8s.io images i
 docker rmi docker.io/library/modelcar-tiny-gguf:latest
 ```{{exec}}
 
-In questo modo, non appena Docker finisce di creare l'immagine, questa viene immediatamente "iniettata" nello storage nativo di Kubernetes (`k8s.io` namespace di `containerd`). Quando applicherai il manifest del Pod, non avrai più l'errore `ErrImageNeverPull`.
+Kubernetes uses a different RunTime than Docker.
+We need to build and inject it inside containerd namespace.
+(`k8s.io` is  `containerd` ns). 
