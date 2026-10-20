@@ -24,3 +24,10 @@ kubectl port-forward --address 0.0.0.0 pod/tiny-gguf -n kserve-test 8080:8080 > 
 ```{{exec}}
 
 Now click the Traffic or Ports button at the top of your Killercoda screen, type 8080, and click the link to open your robot chat window!
+
+
+When done delete and let's go forward.
+
+```bash
+kubectl delete pod tiny-gguf -n kserve-test
+```{{exec}}
