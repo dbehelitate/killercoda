@@ -25,13 +25,14 @@ Killercoda is only 4gb so we will be aware and avoid Out-Of-Memory (OOM) KERNEL 
 Write and apply the manual Pod manifest to validate the underlying Linux kernel primitives before introducing control plane automation.
 
 ```bash
-# 2. Crea il namespace di workload
 kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
 ```{{exec}}
 
-
 ```bash
-cat << 'EOF' | kubectl apply -f -
+nano manual-pod.yaml
+```{{exec}}
+
+```YAML
 apiVersion: v1
 kind: Pod
 metadata:
@@ -91,7 +92,7 @@ spec:
   - name: kserve-provision-location
     emptyDir: {}
 EOF
-```{{exec}}
+```
 
 Wait for "Running" containers
 
