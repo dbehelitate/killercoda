@@ -29,7 +29,59 @@ kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f
 ```bash
 nano manual-pod.yaml
 ```{{exec}}
-
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tiny-gguf
+  namespace: kserve-test
+spec:
+  shareProcessNamespace: true
+  containers:
+  - name: kserve-container
+    image: ghcr.io/ggml-org/llama.cpp:server
+    command:
+      - /bin/sh
+      - -c
+    args:
+      - |
+        while [ ! -f /mnt/models/model.gguf ]; do
+          echo "Waiting for modelcar symlink...";
+          sleep 1;
+        done;
+        exec llama-server -m /mnt/models/model.gguf --host 0.0.0.0 --port 8080
+    ports:
+    - containerPort: 8080
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "1"
+        memory: "512Mi"
+    volumeMounts:
+    - mountPath: /mnt
+      name: kserve-provision-location
+  - name: modelcar
+    image: docker.io/library/modelcar-tiny-gguf:latest
+    imagePullPolicy: Never
+    command:
+    - "/bin/sh"
+    - "-c"
+    args:
+    - ln -sf /proc/$$$$/root/models /mnt/models && sleep infinity
+    resources:
+      requests:
+        cpu: "10m"
+        memory: "15Mi"
+      limits:
+        cpu: "10m"
+        memory: "15Mi"
+    volumeMounts:
+    - mountPath: /mnt
+      name: kserve-provision-location
+  volumes:
+  - name: kserve-provision-location
+    emptyDir: {}
 ```YAML
 apiVersion: v1
 kind: Pod
