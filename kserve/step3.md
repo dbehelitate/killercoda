@@ -41,16 +41,14 @@ spec:
   containers:
   - name: kserve-container
     image: ghcr.io/ggml-org/llama.cpp:server
-    command:
-      - /bin/sh
-      - -c
+    # ENTRYPOINT native of Dockerfile
     args:
-      - |
-        while [ ! -f /mnt/models/model.gguf ]; do
-          echo "Waiting for modelcar symlink...";
-          sleep 1;
-        done;
-        exec llama-server -m /mnt/models/model.gguf --host 0.0.0.0 --port 8080
+      - "-m"
+      - "/mnt/models/model.gguf"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8080"
     ports:
     - containerPort: 8080
     resources:
