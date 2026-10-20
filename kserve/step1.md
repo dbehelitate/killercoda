@@ -38,11 +38,6 @@ helm install kserve-resources oci://ghcr.io/kserve/charts/kserve-resources \
   --wait
 ```{{exec}}
 
-OLD INstall.
-curl -fsSL https://github.com/kserve/kserve/releases/download/v0.20.0/kserve-standard-mode-full-install-with-manifests.sh | bash
-  
-
-
 Now Wait --timeout=60 seconds for safety of killercoda playgound
 
 
