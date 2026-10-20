@@ -11,6 +11,7 @@ This allows the container to “see” other processes from other containers in 
 A minimal sidecar container (modelcar) executes a sym link pointing the primary inference runtime (llama.cpp) directly to the cached weights via the host's `/proc` hierarchy. 
 
 ```markdown
+IF USING HEREDOC
 $$$$ =  Double $$ are reduced to a single $, which is Kubernetes' mechanism to escape the $(VAR_NAME) syntax and produce a literal $ 
 Because of this reduction, writing four dollar signs ($$$$) in the Kubernetes YAML ensures Kubernetes evaluates it down to two dollar signs ($$).
 ```
