@@ -71,7 +71,7 @@ spec:
     args:
     - |
       # Il formato multi-riga è più pulito e gestisce i PID nativamente (da YAML 1)
-      PID=$$$$
+      PID=$$
       ln -sf /proc/$PID/root/models /mnt/models
       sleep infinity
     resources:
