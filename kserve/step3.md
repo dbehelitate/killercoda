@@ -71,7 +71,7 @@ spec:
     - "-c"
     args:
     - |
-      ln -sf /proc/$$/root/models /mnt/models && sleep infinity
+      ln -sf /proc/$$$$/root/models /mnt/models && sleep infinity
     resources:
       requests:
         cpu: "10m"
