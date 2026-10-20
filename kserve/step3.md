@@ -121,4 +121,13 @@ curl -s -X POST http://$POD_IP:8080/v1/chat/completions \
   }' | jq -r '.choices[0].message.content'
 ```
 
+Step Y: Click and Play! 🎈
+Now let's open a magic window to chat with our robot on the internet!
 
+```bash
+kubectl port-forward --address 0.0.0.0 pod/tiny-gguf -n kserve-test 8080:8080 > /dev/null 2>&1 &
+```
+
+We open a secret tunnel from inside the cloud straight to port 8080.
+
+Click the Traffic or Ports button at the top of your Killercoda screen, type 8080, and click the link to open your robot chat window!
