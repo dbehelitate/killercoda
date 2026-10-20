@@ -70,8 +70,8 @@ spec:
     - "/bin/sh"
     - "-c"
     args:
-    args:
-    - ln -sf /proc/self/root/models /mnt/models && sleep infinity
+    # Utilizzo di $$$$ per passare $$ alla shell, che lo interpreterà come il proprio PID
+    - ln -sf /proc/$$$$/root/models /mnt/models && sleep infinity
     resources:
       requests:
         cpu: "10m"
