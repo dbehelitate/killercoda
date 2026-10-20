@@ -16,7 +16,7 @@
     },
     "steps": [
       {
-        "title": "Control Plane",
+        "title": "ModelCar Pod",
         "text": "step1.md"
       },
       {
@@ -32,7 +32,7 @@
         "text": "step4.md"
       },
       {
-        "title": "KServe storage",
+        "title": "KServe Install",
         "text": "step5.md"
       },
       {
