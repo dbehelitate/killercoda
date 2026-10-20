@@ -41,16 +41,15 @@ spec:
   - name: kserve-container
     image: ghcr.io/ggml-org/llama.cpp:server
     command:
-    - "/bin/sh"
-    - "-c"
+      - /bin/sh
+      - -c
     args:
-    - |
-      while [ ! -f /mnt/models/model.gguf ]; do
-        echo "Waiting for modelcar symlink...";
-        sleep 1;
-      done;
-      # Usiamo il percorso assoluto /llama-server per massima sicurezza (da YAML 2)
-      exec /llama-server -m /mnt/models/model.gguf --host 0.0.0.0 --port 8080
+      - |
+        while [ ! -f /mnt/models/model.gguf ]; do
+          echo "Waiting for modelcar symlink...";
+          sleep 1;
+        done;
+        exec llama-server -m /mnt/models/model.gguf --host 0.0.0.0 --port 8080
     ports:
     - containerPort: 8080
     resources:
