@@ -3,7 +3,12 @@
 An OCI registry encapsulates the model weights within containers.
  
 OCI:  
+https://www.docker.com/blog/oci-artifacts-for-ai-model-packaging/
+  
+KServe Example:  
 https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
+
+
   
 ## OCI and Kubernetes
 Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers.
