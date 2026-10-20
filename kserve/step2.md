@@ -22,11 +22,12 @@ The `git clone` command fetches the model weights.
 
 ```bash
 cat << 'EOF_DOCKER' > Dockerfile
+cat << 'EOF_DOCKER' > Dockerfile
 FROM alpine
-RUN apk add --no-cache wget
+RUN apk add --no-cache curl
 RUN mkdir -p /models
-# Modello SmolLM2-135M-Instruct GGUF (~90MB) - nessun token richiesto
-RUN wget -O /models/model.gguf https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct-GGUF/resolve/main/smollm2-135m-instruct-q4_k_m.gguf
+# Download con curl -sSL per gestire correttamente i reindirizzamenti 302 di HF (~100MB)
+RUN curl -sSL -o /models/model.gguf https://huggingface.co/bartowski/SmolLM2-135M-Instruct-GGUF/resolve/main/SmolLM2-135M-Instruct-Q4_K_M.gguf
 ENTRYPOINT ["sh"]
 EOF_DOCKER
 ```{{exec}}
