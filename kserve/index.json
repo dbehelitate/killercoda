@@ -10,11 +10,12 @@
   },
   "details": {
     "intro": {
-      "text": "intro.md"
+      "text": "intro.md",
+      "foreground": "foreground.sh"      
     },
     "steps": [
       {
-        "title": "Control Plane Initialization",
+        "title": "Control Plane",
         "text": "step1.md"
       },
       {
