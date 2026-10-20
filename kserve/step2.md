@@ -25,16 +25,18 @@ cat << 'EOF_DOCKER' > Dockerfile
 FROM alpine
 RUN apk add --no-cache wget
 RUN mkdir -p /models
-# Scarichiamo un modello GGUF piccolissimo (~400MB) direttamente in /models
-RUN wget -O /models/model.gguf https://huggingface.co/Qwen/Qwen1.5-0.5B-Chat-GGUF/resolve/main/qwen1_5-0_5b-chat-q4_k_m.gguf
+# Modello SmolLM2-135M-Instruct GGUF (~90MB) - nessun token richiesto
+RUN wget -O /models/model.gguf https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct-GGUF/resolve/main/smollm2-135m-instruct-q4_k_m.gguf
 ENTRYPOINT ["sh"]
 EOF_DOCKER
 ```{{exec}}
 
 ```bash
-docker build -t docker.io/library/modelcar-tiny-gguf:latest . && \
-docker save docker.io/library/modelcar-tiny-gguf:latest | ctr -n k8s.io images import - && \
-docker rmi docker.io/library/modelcar-tiny-gguf:latest
+```bash
+docker build -t modelcar-tiny-gguf:latest . && \
+docker save modelcar-tiny-gguf:latest | sudo ctr -n k8s.io images import - && \
+docker rmi modelcar-tiny-gguf:latest
+```{{exec}}
 ```{{exec}}
 
 Kubernetes uses a different RunTime than Docker.
