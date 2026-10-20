@@ -88,7 +88,6 @@ spec:
   volumes:
   - name: kserve-provision-location
     emptyDir: {}
-EOF
 ```
 
 ```bash
