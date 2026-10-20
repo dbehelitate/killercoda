@@ -1,8 +1,8 @@
 ## Architecture and Objectives
   
-Goal: Zero-Copy AI
-❌ COPY 750GB = 🐢
-✅ READ 750GB = 🚀
+Goal: Zero-Copy AI  
+❌ COPY 750GB = 🐢  
+✅ READ 750GB = 🚀  
 
 Copying 750 GB of Ai models to each pod , it's a bottleneck.  
 Each pod reading a Model without copying files it's better.
