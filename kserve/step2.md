@@ -1,4 +1,4 @@
-# Step 2: pull TinyGPT 
+# Step 2: pull SmolGPT 
 
 An OCI registry encapsulates the model weights within containers.
  
@@ -21,7 +21,6 @@ Create the `Dockerfile` and executethe image build.
 The `git clone` command fetches the model weights.
 
 ```bash
-cat << 'EOF_DOCKER' > Dockerfile
 cat << 'EOF_DOCKER' > Dockerfile
 FROM alpine
 RUN apk add --no-cache curl
