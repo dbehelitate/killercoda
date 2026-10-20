@@ -1,4 +1,17 @@
-# Step 5: KServe Storage Initializer Configuration
+# Step 1
+
+Step 2: pull SmolGPT
+An OCI registry encapsulates the model weights within containers.
+
+OCI:
+https://www.docker.com/blog/oci-artifacts-for-ai-model-packaging/
+
+KServe Example:
+https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
+
+OCI and Kubernetes
+Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers.
+
 
 ## Architectural Theory
 
@@ -10,11 +23,5 @@ When a deployment manifest specifies an `oci://` storage URI schema, KServe inte
 
 Apply the configuration patch using standard JSON manipulation via `jq` to enable modelcar behavior in KServe's storage initializer, then roll out the controller manager to synchronize the updated configuration state.
 
-```bash
-kubectl get configmap inferenceservice-config -n kserve -o json | \
-jq '.data.storageInitializer |= (fromjson | .enableModelcar = true | tojson)' | \
-kubectl apply -f -
 
-kubectl rollout restart deployment/kserve-controller-manager -n kserve
-kubectl rollout status deployment/kserve-controller-manager -n kserve
-```{{exec}}
+
