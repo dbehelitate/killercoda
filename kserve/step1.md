@@ -1,6 +1,4 @@
-# Step 1
-
-Step 2: pull SmolGPT
+Step1: Pull SmolGPT in an OCI Container
 An OCI registry encapsulates the model weights within containers.
 
 OCI:
