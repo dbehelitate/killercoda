@@ -11,6 +11,7 @@
   "details": {
     "intro": {
       "text": "intro.md",
+      "background": "assets/background.sh"
       "foreground": "assets/foreground.sh"      
     },
     "steps": [
