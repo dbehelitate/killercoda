@@ -1,9 +1,9 @@
 ## Architecture and Objectives
   
-### 0) Zero-Copy Pattern
-### 1) COPY 750 Gb of Ai = BAD X   
-### 2) READ 750 Gb of Ai =  GOOD V   
-  
+Goal: Zero-Copy AI
+❌ COPY 750GB = 🐢
+✅ READ 750GB = 🚀
+
 Copying 750 GB of Ai models to each pod , it's a bottleneck.  
 Each pod reading a Model without copying files it's better.
 
