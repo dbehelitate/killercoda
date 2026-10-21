@@ -1,31 +1,28 @@
-# Step 2: pull SmolGPT 
-
-An OCI registry encapsulates the model weights within containers.
- 
-OCI:  
-https://www.docker.com/blog/oci-artifacts-for-ai-model-packaging/
+# Step 2: Architecture
   
-KServe Example:  
-https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
-
-
+![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
   
+Goal: Zero-Copy AI  
+❌ COPY 750GB = 🐢  
+✅ READ 750GB = 🚀  
+
+⚠️ Copying 750GB to every pod is a bottleneck. Reading directly is the fix.
+Instead of using emptyDir, KServe uses symlinks to achieve this. Let's build the modelcar pattern from scratch to see exactly how it works under the hood.
+   
 ## OCI and Kubernetes
 Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers.
 
-
 ## Deployment Execution
-
 Create the `Dockerfile` and executethe image build. 
-    
 The `git clone` command fetches the model weights.
-
+Kubernetes uses a different RunTime than Docker.
+We need to build and inject it inside containerd namespace so we wil use "sudo ctr" (`k8s.io` is  `containerd` ns).
+  
 ```bash
 cat << 'EOF_DOCKER' > Dockerfile
 FROM alpine
 RUN apk add --no-cache curl ca-certificates
 RUN mkdir -p /models
-# Il flag -f (fail) impedisce a curl di salvare pagine di errore 404
 RUN curl -fsSL -o /models/model.gguf https://huggingface.co/bartowski/SmolLM2-135M-Instruct-GGUF/resolve/main/SmolLM2-135M-Instruct-Q4_K_M.gguf
 EOF_DOCKER
 
@@ -36,6 +33,4 @@ docker rmi docker.io/library/modelcar-tiny-gguf:latest
 ```{{exec}}
 
 
-Kubernetes uses a different RunTime than Docker.
-We need to build and inject it inside containerd namespace.
-(`k8s.io` is  `containerd` ns). 
+
