@@ -1,13 +1,6 @@
 # Step 2: Architecture
   
-![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
-  
-Goal: Zero-Copy AI  
-❌ COPY 750GB = 🐢  
-✅ READ 750GB = 🚀  
 
-⚠️ Copying 750GB to every pod is a bottleneck. Reading directly is the fix.
-Instead of using emptyDir, KServe uses symlinks to achieve this. Let's build the modelcar pattern from scratch to see exactly how it works under the hood.
    
 ## OCI and Kubernetes
 Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers.
