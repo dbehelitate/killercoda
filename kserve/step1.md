@@ -1,5 +1,9 @@
 ### Step1: Pull SmolGPT in an OCI Container  
 
+We will learn to deploy a chat without KServe and with LLMInferenceService.   
+  
+LET'S GO:  
+  
 Goal: Zero-Copy AI  
 ❌ COPY 750GB = 🐢  
 ✅ READ 750GB = 🚀  
@@ -9,17 +13,15 @@ Instead of using emptyDir, KServe uses symlinks to achieve this. Let's build the
      
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
   
-  
-OCI:
-https://www.docker.com/blog/oci-artifacts-for-ai-model-packaging/
-
 KServe Example:
 https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example
 
-OCI and Kubernetes
+OCI:
+https://www.docker.com/blog/oci-artifacts-for-ai-model-packaging/
+  
+OCI and Kubernetes:
 Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers.
-
-
+  
 ## Architectural Theory
 
 Manually orchestrating container sidecars and process namespaces across hundreds of production workloads is unmaintainable. KServe abstracts this complexity through its core storage initializer controller. 
