@@ -3,7 +3,7 @@
 </p>  
 
  
-## CLICK AND PLAY
+## CLICK THE LINK AND PLAY
 ### <p align="center">https://killercoda.com/dbehelitate/scenario/kserve</p>       
 
 
