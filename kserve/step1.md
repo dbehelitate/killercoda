@@ -1,7 +1,13 @@
 Step1: Pull SmolGPT in an OCI Container
-An OCI registry encapsulates the model weights within containers.
+  
+![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
+  
+Goal: Zero-Copy AI  
+❌ COPY 750GB = 🐢  
+✅ READ 750GB = 🚀  
 
-![ui](./assets/llam-ui.png)
+⚠️ Copying 750GB to every pod is a bottleneck. Reading directly is the fix.
+Instead of using emptyDir, KServe uses symlinks to achieve this. Let's build the modelcar pattern from scratch to see exactly how it works under the hood.
 
 OCI:
 https://www.docker.com/blog/oci-artifacts-for-ai-model-packaging/
