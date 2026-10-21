@@ -3,7 +3,7 @@
 </p>  
 
  
-# CLICK AND PLAY
+## CLICK AND PLAY
 ### <p align="center">https://killercoda.com/dbehelitate/scenario/kserve</p>       
 
 
@@ -13,7 +13,7 @@
 <div align="center">
 
 
-#### *Zero-Setup / AI Evals & Guardrails Sandbox*
+#### *Zero-Setup / AI Evals inside a live browser-based terminal sandbox. *
 
 
 
@@ -21,10 +21,6 @@
 
 ---
 
-###  FIRST TIME ON KILLERCODA?
-> **Zero installations. Zero local configs.** Everything runs inside a live browser-based terminal sandbox. 
-  
-# CLICK AND PLAY
-### https://killercoda.com/dbehelitate/scenario/kserve
+
 
 
