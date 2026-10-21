@@ -1,5 +1,7 @@
 # Step 4: Hello World.
 
+![UI](./assets/llam-ui.png)
+
 
 ```bash
 POD_IP=$(kubectl get pod tiny-gguf -n kserve-test -o jsonpath='{.status.podIP}')
