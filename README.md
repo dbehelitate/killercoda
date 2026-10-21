@@ -3,7 +3,7 @@
 </p>  
 
  
-
+# CLICK AND PLAY
 ### <p align="center">https://killercoda.com/dbehelitate/scenario/kserve</p>       
 
 
@@ -23,5 +23,8 @@
 
 ###  FIRST TIME ON KILLERCODA?
 > **Zero installations. Zero local configs.** Everything runs inside a live browser-based terminal sandbox. 
+  
+# CLICK AND PLAY
+### https://killercoda.com/dbehelitate/scenario/kserve
 
 
