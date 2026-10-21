@@ -1,6 +1,8 @@
 Step1: Pull SmolGPT in an OCI Container
 An OCI registry encapsulates the model weights within containers.
 
+![ui](./assets/llam-ui.png)
+
 OCI:
 https://www.docker.com/blog/oci-artifacts-for-ai-model-packaging/
 
