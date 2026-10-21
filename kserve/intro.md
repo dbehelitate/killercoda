@@ -1,6 +1,4 @@
 ## Deploy a ChatBOT
-We will learn to deploy a chat without KServe and with LLMInferenceService.   
-LET'S GO:  
 
 Think of this like a two-box system:  
 📦 Model Container = model weights inside an OCI (tinygpt, qwen2.5, or smolgpt)  
