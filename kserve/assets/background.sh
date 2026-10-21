@@ -14,13 +14,18 @@ $$ |  $$ |$$ |  $$ |$$  ____|$$ |  $$ |$$  ____|$$ |$$ |  $$ |$$\ $$  __$$ | $$ 
   🎯 SCENARIO OBJECTIVES
 ==================================================
 
-  • Install KServe in 'kserve' namespace
-  • Pull TinyGPT in 'kserve-test' namespace
-  • Deploy Pod with 2 containers:
+  • Pull TinyGPT in 'kserve-test' namespace  
+  
+  • Deploy Pod with 2 containers:  
+  
       - llama.cpp (Runtime)
       - tinygpt   (Modelcar)
-  • Symlink Runtime to READ directly from Modelcar
+      
+  • Symlink Runtime to READ directly from Modelcar    
+  
   • Run "Hello World" inference test
+
+  • Install KServe and Start Again
 
 ==================================================
   
