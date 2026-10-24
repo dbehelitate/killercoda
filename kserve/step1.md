@@ -15,7 +15,9 @@ https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_so
   
 [NOT FOR CASUALS]    
 ⚠️ Manually orchestrating container sidecars and process namespaces across hundreds of production workloads is unmaintainable that's why we use KServe.
+  
 Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers. 
+  
 Kubernetes native way of reading OCI pulled from HuggingFace uses emptyDir while KServe uses symlinks to achieve this.
 
 
@@ -25,8 +27,7 @@ Kubernetes native way of reading OCI pulled from HuggingFace uses emptyDir while
 
 
     
-KServe abstracts this complexity through its core storage initializer controller. 
-When a deployment manifest specifies an `oci://` storage URI schema, KServe intercepts the admission request. By enabling the `enableModelcar` parameter within KServe's global configuration (`inferenceservice-config`), the system's mutating admission webhook dynamically transforms the Pod specification at runtime. It automatically injects the shared `emptyDir` memory spaces, provisions the modelcar sidecar container, and appends the requisite symbolic linking logic (`ln -s /proc/...`) without requiring manual operator intervention.
+
 
 
 
