@@ -1,4 +1,4 @@
-### Step1: Pull SmolGPT in an OCI Container  
+## Pull SmolGPT in an OCI Container  
 
 ⚠️Copying 750GB to every pod is a bottleneck. Reading directly is the fix via SYM LINK
   
