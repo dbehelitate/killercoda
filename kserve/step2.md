@@ -1,8 +1,8 @@
 ## OCI and Kubernetes  
-Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers.  
-An OCI registry encapsulates the model weights within containers.  
+Packaging Ai models weights as OCI images enables Kubernetes nodes to decouple layers.  
 
-## Use this code to Pull SmolLM2 from HUGGIN FACE.
+
+## Use this code to Pull SmolLM2.
 Create the `Dockerfile` and executethe image build. 
 The `git clone` command fetches the model weights.
   
@@ -17,7 +17,7 @@ EOF_DOCKER
 
 ## From Docker to Kubernetes
 Kubernetes uses a different RunTime than Docker.
-We need to build and inject it inside containerd namespace so we wil use "sudo ctr" (`k8s.io` is  `containerd` ns).
+We need to build and inject it inside containerd namespace.
 
 ```bash
 docker build -t docker.io/library/modelcar-tiny-gguf:latest . && \
