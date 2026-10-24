@@ -16,10 +16,7 @@ KServe OCI Example:
 https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example    
   
 ⚠️ [NOT FOR CASUALS]    
-  
-Packaging Ai models as OCI images enables Kubernetes nodes to decouple layers.    
 Kubernetes native way of reading OCI pulled from HuggingFace uses emptyDir while KServe uses symlinks to achieve this.    
-
 Manually orchestrating container sidecars and process namespaces across hundreds of production workloads is unmaintainable that's why we use KServe.  
     
 
