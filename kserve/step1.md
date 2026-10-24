@@ -2,8 +2,8 @@
 
 ⚠️**Copying 750GB to every pod is a bottleneck. Reading directly is the fix via SYM LINK**
   
-❌ **COPY** 750GB = SLOW &nbsp;  ❌ (emptyDir / initContainer)  
-✅ **READ** 750GB = SCHNELL &nbsp;  ✅(emptyDir with SYM LINK / KServe) 
+❌ **COPY** 750GB = SLOW &nbsp;  ❌(emptyDir / initContainer)  
+✅ **READ** 750GB = SCHNELL &nbsp;  ✅ (SYM LINK / KServe) 
   
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)
   
