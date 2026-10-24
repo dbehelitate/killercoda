@@ -1,5 +1,7 @@
 # Step 6: InferenceService Abstraction and Native Volumes
-
+**FROM STEP 1** 
+KServe abstracts this complexity through its core storage initializer controller. 
+When a deployment manifest specifies an `oci://` storage URI schema, KServe intercepts the admission request. By enabling the `enableModelcar` parameter within KServe's global configuration (`inferenceservice-config`), the system's mutating admission webhook dynamically transforms the Pod specification at runtime. It automatically injects the shared `emptyDir` memory spaces, provisions the modelcar sidecar container, and appends the requisite symbolic linking logic (`ln -s /proc/...`) without requiring manual operator intervention.
 ## Architectural Theory
 
 Define the `InferenceService` utilizing the Standard deployment mode and the `oci://` URI scheme. The KServe mutating webhook automatically parses the `storageUri`, injects the required `emptyDir` volume, configures process namespace sharing, and attaches the modelcar sidecar. Aggressive vLLM resource limits and runtime parameters are passed directly to the container specifications to prevent node memory exhaustion.
