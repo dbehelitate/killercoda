@@ -13,7 +13,7 @@
 2) We'll learn to deploy HOUNDREDS of ChatBOT with LLMInferenceService (KServe)  
 
 KServe OCI Example:  
-https://kserve.github.io/website/docs/model-serving/storage/providers/oci?utm_source=kapa#example    
+https://kserve.github.io/website/docs/model-serving/storage/providers/oci
   
 ⚠️ [NOT FOR CASUALS]    
 Kubernetes native way of reading OCI pulled from HuggingFace uses emptyDir while KServe uses symlinks to achieve this.    
