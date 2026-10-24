@@ -4,7 +4,7 @@
   
 ❌ **COPY** 750GB = SLOW &nbsp;  
 (emptyDir / initContainer)  
-✅ **READ** 750GB = SCHNELL &nbsp;   
+✅ **READ** 750GB = FAST &nbsp;   
 (SYM LINK / KServe)  
   
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)  
