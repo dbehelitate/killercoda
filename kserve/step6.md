@@ -43,9 +43,9 @@ spec:
             cpu: "500m"
             memory: "1Gi"
 EOF_YAML
-
+```
+  
+```bash
 kubectl apply -f inferenceservice.yaml
 ```{{exec}}
-
-kubectl apply -f inferenceservice.yaml
-```{{exec}}
+  
