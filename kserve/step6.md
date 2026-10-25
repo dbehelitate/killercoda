@@ -17,7 +17,7 @@ cat << 'EOF_YAML' > inferenceservice.yaml
 apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
-  name: qwen-modelcar
+  name: smollm-modelcar
   annotations:
     serving.kserve.io/deploymentMode: Standard
 spec:
@@ -26,12 +26,13 @@ spec:
       modelFormat:
         name: pytorch
       runtime: vllm
-      storageUri: "oci://modelcar-qwen:latest"
+      storageUri: "oci://docker.io/library/modelcar-tiny-gguf:latest"
       containers:
       - env:
         - name: VLLM_TARGET_DEVICE
           value: "cpu"
         args:
+        - "--model=/mnt/models/models/model.gguf"
         - "--max-model-len=128"
         - "--enforce-eager"
         resources:
@@ -42,6 +43,9 @@ spec:
             cpu: "500m"
             memory: "1Gi"
 EOF_YAML
+
+kubectl apply -f inferenceservice.yaml
+```{{exec}}
 
 kubectl apply -f inferenceservice.yaml
 ```{{exec}}
