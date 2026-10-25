@@ -3,29 +3,8 @@
 Killercoda is only 4gb so we will be aware and    
 Avoid Out-Of-Memory (OOM) 🕉️ [ KERNEL PANICS ]  
   
-Kubernetes natively isolates container processes.  
-To achieve zero-copy data sharing, the Pod specification must share its process namespace in YAML deployment.
-
-```markdown
-(`shareProcessNamespace: true`).
-This allows the container to “see” other processes from other containers in the same pod.
-```
-  
-A minimal sidecar container (modelcar) executes a sym link pointing the primary inference runtime (llama.cpp) directly to the cached weights via the host's `/proc` hierarchy. 
-
-```markdown
-IF USING HEREDOC
-$$$$ =  Double $$ are reduced to a single $, which is Kubernetes' mechanism to escape the $(VAR_NAME) syntax and produce a literal $ 
-Because of this reduction, writing four dollar signs ($$$$) in the Kubernetes YAML ensures Kubernetes evaluates it down to two dollar signs ($$).
-```
-
-
-## Manual Deploying with $$$$ of TinyGPT
-
-Write and apply the manual Pod manifest to validate the underlying Linux kernel primitives before introducing control plane automation.
-
 ```bash
-kubectl create namespace kserve-test --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace kserve-test
 ```{{exec}}
 
 ```bash
@@ -92,17 +71,41 @@ spec:
 kubectl apply -f manual-pod.yaml
 ```{{exec}}
 
+  Wait for "Running" containers
 
-Wait for "Running" containers
+#test pod
 
 ```bash
-#verifica pod
+
 kubectl get pods -n kserve-test -w
 ```{{exec}}
 
+#test symlink
+  
 ```bash
-#verifica symlink
+
 kubectl exec tiny-gguf -c modelcar -n kserve-test -- ls -la /mnt/
 ```
+
+Kubernetes natively isolates container processes.  
+To achieve zero-copy data sharing, the Pod specification must share its process namespace in YAML deployment.  
+
+```markdown
+(`shareProcessNamespace: true`).
+This allows the container to “see” other processes from other containers in the same pod.
+```
+    
+A minimal sidecar container (modelcar) executes a sym link pointing the primary inference runtime (llama.cpp) directly to the cached weights via the host's `/proc` hierarchy.   
+  
+```markdown
+IF USING HEREDOC
+$$$$ =  Double $$ are reduced to a single $, which is Kubernetes' mechanism to escape the $(VAR_NAME) syntax and produce a literal $ 
+Because of this reduction, writing four dollar signs ($$$$) in the Kubernetes YAML ensures Kubernetes evaluates it down to two dollar signs ($$).
+```
+
+
+
+
+
 
 
