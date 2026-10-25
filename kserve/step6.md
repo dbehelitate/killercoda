@@ -1,14 +1,17 @@
-# Step 6: InferenceService Abstraction and Native Volumes
-**FROM STEP 1** 
-KServe abstracts this complexity through its core storage initializer controller. 
-When a deployment manifest specifies an `oci://` storage URI schema, KServe intercepts the admission request. By enabling the `enableModelcar` parameter within KServe's global configuration (`inferenceservice-config`), the system's mutating admission webhook dynamically transforms the Pod specification at runtime. It automatically injects the shared `emptyDir` memory spaces, provisions the modelcar sidecar container, and appends the requisite symbolic linking logic (`ln -s /proc/...`) without requiring manual operator intervention.
-## Architectural Theory
+# KServe InferenceService Abstraction and Native Volumes
 
-Define the `InferenceService` utilizing the Standard deployment mode and the `oci://` URI scheme. The KServe mutating webhook automatically parses the `storageUri`, injects the required `emptyDir` volume, configures process namespace sharing, and attaches the modelcar sidecar. Aggressive vLLM resource limits and runtime parameters are passed directly to the container specifications to prevent node memory exhaustion.
+#### The modelcar paradigm serves exclusively as a transitional bridge technology.  
 
-The modelcar paradigm serves exclusively as a transitional bridge technology. Kubernetes 1.31 introduced native OCI Image Volume Mounts (advanced to beta in Kubernetes 1.35), which permit the Container Runtime Interface (CRI) to mount images directly as local volumes. This native implementation deprecates the necessity for process namespace sharing, VFS traversal hacks, and sidecar execution. Structuring model assets inside the `/models` directory maintains forward compatibility for a seamless migration to native volume mounts.
+1. Kubernetes 1.35 introduced BETA  OCI Image Volume Mounts  which permit the Container Runtime Interface (CRI) to mount images directly as local volumes.  
+This native implementation deprecates the necessity for process namespace sharing, VFS traversal hacks, and sidecar execution.  
+  
+2. KServe meanwhile abstracts this complexity through its core storage initializer controller. 
+When a deployment`InferenceService`manifest specifies an `oci://` storage URI schema, KServe intercepts the admission request.    
 
-## Deployment Execution
+`enableModelcar` parameter within KServe's `inferenceservice-config` the system dynamically transforms the Pod spec. at runtime.   
+It automatically injects the shared `emptyDir` and provisions the sidecar container and appends the symbolic link `ln -s /proc/...` 
+
+### Deployment 
 
 Write and apply the `InferenceService` manifest to orchestrate the OCI-backed model execution through the KServe control plane.
 
