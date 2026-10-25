@@ -52,5 +52,8 @@ spec:
   
 ```bash
 kubectl apply -f inferenceservice.yaml
-```{{exec}}
-  
+
+kubectl get isvc smollm-modelcar -n kserve-test
+
+kubectl port-forward -n kserve-test svc/smollm-modelcar-predictor-default 8080:80
+```
