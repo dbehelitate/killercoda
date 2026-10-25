@@ -1,10 +1,7 @@
-# KServe
-
-## Architectural Theory
-
+## KServe  
+  
 Traditional model initialization relies on `initContainers` copying data from remote storage into `emptyDir` volumes.
-
-KServe mitigates this anti-pattern through direct OCI image execution.
+KServe mitigates this anti-pattern through direct OCI image execution.  
   
 #### Install KServe 
 
