@@ -24,26 +24,32 @@ spec:
   predictor:
     model:
       modelFormat:
-        name: pytorch
-      runtime: vllm
+        name: custom
       storageUri: "oci://docker.io/library/modelcar-tiny-gguf:latest"
       containers:
-      - env:
-        - name: VLLM_TARGET_DEVICE
-          value: "cpu"
+      - name: kserve-container
+        image: ghcr.io/ggml-org/llama.cpp:server
         args:
-        - "--model=/mnt/models/models/model.gguf"
-        - "--max-model-len=128"
-        - "--enforce-eager"
+        - "-m"
+        - "/mnt/models/models/model.gguf"
+        - "--host"
+        - "0.0.0.0"
+        - "--port"
+        - "8080"
+        - "--ctx-size"
+        - "1024"
+        ports:
+        - containerPort: 8080
+          protocol: TCP
         resources:
+          requests:
+            cpu: "200m"
+            memory: "512Mi"
           limits:
             cpu: "1"
-            memory: "2Gi"
-          requests:
-            cpu: "500m"
             memory: "1Gi"
 EOF_YAML
-```
+```{{exec}}
   
 ```bash
 kubectl apply -f inferenceservice.yaml
