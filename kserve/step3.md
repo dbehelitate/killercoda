@@ -1,6 +1,7 @@
-# Step 3: llama.cpp container and  TinyGPT sidecar
+llama.cpp container and model sidecar
 
-Killercoda is only 4gb so we will be aware and avoid Out-Of-Memory (OOM) 🕉️ [ KERNEL PANICS ]  
+Killercoda is only 4gb so we will be aware and    
+Avoid Out-Of-Memory (OOM) 🕉️ [ KERNEL PANICS ]  
   
 Kubernetes natively isolates container processes.  
 To achieve zero-copy data sharing, the Pod specification must share its process namespace in YAML deployment.
