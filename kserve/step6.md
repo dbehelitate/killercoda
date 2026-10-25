@@ -13,11 +13,11 @@ When a deployment`InferenceService`manifest specifies an `oci://` storage URI sc
 #### Deployment 
 
 ```bash
-cat << 'EOF_YAML' > inferenceservice.yaml
 apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   name: smollm-modelcar
+  namespace: kserve-test
   annotations:
     serving.kserve.io/deploymentMode: Standard
 spec:
@@ -48,7 +48,6 @@ spec:
           limits:
             cpu: "1"
             memory: "1Gi"
-EOF_YAML
 ```{{exec}}
   
 ```bash
