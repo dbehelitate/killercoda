@@ -73,14 +73,14 @@ kubectl apply -f manual-pod.yaml
 
   Wait for "Running" containers
 
-#test pod
+#### Test pod
 
 ```bash
 
 kubectl get pods -n kserve-test -w
 ```{{exec}}
 
-#test symlink
+#### Test symlink
   
 ```bash
 
