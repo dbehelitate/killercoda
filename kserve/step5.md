@@ -1,10 +1,8 @@
-# Step 5: KServe Control Plane Initialization
+# KServe
 
 ## Architectural Theory
 
 Traditional model initialization relies on `initContainers` copying data from remote storage into `emptyDir` volumes.
-
-Copying gigabytes of data for Large Language Models (LLMs) per Pod replica causes severe node-level I/O bottlenecks and critically increases startup latency. 
 
 KServe mitigates this anti-pattern through direct OCI image execution.
   
