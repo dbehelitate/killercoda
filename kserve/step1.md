@@ -1,6 +1,6 @@
 ## Pull SmolGPT in an OCI Container  
 
-⚠️Copying 750GB to every pod is a bottleneck. Reading directly is the fix via SYM LINK
+⚠️Copying 750GB to every pod is a bottleneck. Reading directly is the fix via SYM LINK  
     ❌ **Copy** 750GB of model weights = slow &nbsp;  
       (emptyDir/initContainer)  
     ✅ **Read** 750GB = fast &nbsp;   
