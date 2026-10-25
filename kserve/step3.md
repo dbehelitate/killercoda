@@ -90,18 +90,28 @@ kubectl exec tiny-gguf -c modelcar -n kserve-test -- ls -la /mnt/
 Kubernetes natively isolates container processes.  
 To achieve zero-copy data sharing, the Pod specification must share its process namespace in YAML deployment.  
 
-```markdown
-(`shareProcessNamespace: true`).
+1. (`shareProcessNamespace: true`).
 This allows the container to “see” other processes from other containers in the same pod.
-```
-    
-```markdown
-IF USING HEREDOC
-$$$$ =  Double $$ are reduced to a single $, which is Kubernetes' mechanism to escape the $(VAR_NAME) syntax and produce a literal $ 
-Because of this reduction, writing four dollar signs ($$$$) in the Kubernetes YAML ensures Kubernetes evaluates it down to two dollar signs ($$).
-```
+      
+2. The `$$$$` in my example is needed because of an additional escaping step. The YAML setup I used processes dollar signs before the command reaches the shell, so each `$` needs to be doubled. As a result, `$$$$` becomes `$$`, which the shell then expands to its PID.
 
+YAML itself does not require escaping dollar signs. It's the additional processing or templating layer that makes the difference. If you're writing a plain Kubernetes YAML manifest without such a layer, `$$` should be sufficient.
 
+So, when you see:
+
+`models -> /proc/$/root/models`
+
+something has gone wrong with the escaping or variable expansion. You should see a numeric PID instead of the single `$`.
+
+My suggestion would be to start with a simple shell experiment:
+
+    echo $$
+    ln -s /proc/$$/root/models models
+    ls -l models
+
+This lets you see the PID expansion directly, without involving YAML or any additional escaping. Note that the process whose PID you reference needs to stay alive for the `/proc/<PID>/root` link to remain valid.
+
+Once you understand that part, you can move the command into your Kubernetes YAML and check what actually reaches the shell. That should help you identify where the extra escaping happens.
 
 
 
