@@ -1,4 +1,4 @@
-## Pull SmolGPT in an OCI Container  
+## GPT in OCI Sidecar 
 
 Copying 750GB to every pod is a bottleneck.  
     ❌ **Copy** 750GB = emptyDir/initContainer  
