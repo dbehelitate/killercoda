@@ -1,4 +1,4 @@
-# Step 4: Hello World.
+# Hello World.
 
 ![UI](./assets/llam-ui.png)
 
