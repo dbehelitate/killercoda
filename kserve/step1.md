@@ -1,6 +1,6 @@
 ## Pull SmolGPT in an OCI Container  
 
-⚠️Copying 750GB to every pod is a bottleneck.
+⚠️Copying 750GB to every pod is a bottleneck.  
     ❌ **Copy** 750GB = emptyDir/initContainer  
     ✅ **Read** 750GB = symlink/KServe  
   
