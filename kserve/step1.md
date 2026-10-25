@@ -1,12 +1,10 @@
 ## Pull SmolGPT in an OCI Container  
 
 ⚠️Copying 750GB to every pod is a bottleneck. Reading directly is the fix via SYM LINK
-  
-❌ **COPY** 750GB of model weights = slow &nbsp;  
-(emptyDir/initContainer)  
-
-✅ **READ** 750GB = fast &nbsp;   
-(symlink/KServe)  
+    ❌ **Copy** 750GB of model weights = slow &nbsp;  
+      (emptyDir/initContainer)  
+    ✅ **Read** 750GB = fast &nbsp;   
+      (symlink/KServe)  
   
 ![KServe Modelcar Architecture](./assets/OCI.ModelContainer.-emptydir-.png)  
   
