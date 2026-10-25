@@ -95,8 +95,6 @@ To achieve zero-copy data sharing, the Pod specification must share its process 
 This allows the container to “see” other processes from other containers in the same pod.
 ```
     
-A minimal sidecar container (modelcar) executes a sym link pointing the primary inference runtime (llama.cpp) directly to the cached weights via the host's `/proc` hierarchy.   
-  
 ```markdown
 IF USING HEREDOC
 $$$$ =  Double $$ are reduced to a single $, which is Kubernetes' mechanism to escape the $(VAR_NAME) syntax and produce a literal $ 
