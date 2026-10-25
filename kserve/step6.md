@@ -8,15 +8,9 @@ This deprecates the necessity for process namespace sharing, VFS traversal hacks
 2. KServe meanwhile abstracts this complexity through its core storage initializer controller. 
 When a deployment`InferenceService`manifest specifies an `oci://` storage URI schema, KServe intercepts the admission request.
   
-```bash
-kubectl edit configmap inferenceservice-config -n kserve
-```
+
+`enableModelcar` within KServe's `inferenceservice-config` transforms the Pod spec at runtime injecting the shared `emptyDir` , provisioning the sidecar container and appending the symbolic link `ln -s /proc/...`     
   
-`enableModelcar` within KServe's `inferenceservice-config` transforms the Pod spec at runtime injecting the shared `emptyDir` , provisioning the sidecar container and appending the symbolic link `ln -s /proc/...`   
-
-
-kubectl edit configmap inferenceservice-config -n kserve
-
 ```markdown
 data:
   deploy: |-
@@ -24,6 +18,10 @@ data:
       "defaultDeploymentMode": "Serverless",
       "enableModelcar": "true"
     }
+```  
+  
+```bash
+kubectl edit configmap inferenceservice-config -n kserve
 ```
 
 #### Runtime.yaml
@@ -44,7 +42,7 @@ spec:
       image: ghcr.io/ggml-org/llama.cpp:server
       args:
         - -m
-        - /mnt/models/models/model.gguf
+        - /mnt/models/model.gguf
         - --host
         - 0.0.0.0
         - --port
@@ -77,14 +75,23 @@ spec:
       modelFormat:
         name: custom
       runtime: llama-cpp-runtime
-      storageUri: oci://docker.io/library/modelcar-tiny-gguf:latest
+      storageUri: oci://docker.io/library/modelcar-tiny-gguf:v1
  ```
-  
-```bash
 
+### Now with some portforwarding you should be able to reach the dashboard.
+### If something doesn't work try troubleshooting with AI Help.
+### Every logged Mistake is a Victory.
+    
+```bash
+# usefull   
+kubectl port-forward -n kserve-test svc/tiny-svc-predictor-default 8080:80
+
+kubectl port-forward --address 0.0.0.0 pod/tiny-gguf -n kserve-test 8080:8080 > /dev/null 2>&1 &
+  
 kubectl get isvc tiny-svc -n kserve-test
 
 kubectl describe isvc tiny-svc -n kserve-test
 
-kubectl port-forward -n kserve-test svc/tiny-svc-predictor-default 8080:80
+kubectl logs tiny-svc-predictor-6658db44f6-8nf4h -c kserve-container -n kserve-test
+
 ```
