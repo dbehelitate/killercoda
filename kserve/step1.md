@@ -1,6 +1,6 @@
 ## Pull SmolGPT in an OCI Container  
 
-⚠️Copying 750GB to every pod is a bottleneck.  
+Copying 750GB to every pod is a bottleneck.  
     ❌ **Copy** 750GB = emptyDir/initContainer  
     ✅ **Read** 750GB = symlink/KServe  
   
@@ -12,9 +12,9 @@
 KServe OCI Example:  
 https://kserve.github.io/website/docs/model-serving/storage/providers/oci
   
-⚠️ [NOT FOR CASUALS]    
-Kubernetes native way of reading OCI pulled from HuggingFace uses emptyDir while KServe uses symlinks to achieve this.   
-  
+⚠️ 
+Kubernetes native way of reading OCI pulled Models uses emptyDir but Image VOlumes have been introduced recently as well.
+Meanwhile KServe uses symlinks to achieve this and PV is another Method with it's ow niche.  
 Manually orchestrating container sidecars and process namespaces across hundreds of production workloads is unmaintainable that's why we use KServe.  
     
 
